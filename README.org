@@ -1,0 +1,4 @@
+
+* guile-redis
+
+guile-redis is a simple Guile module for the redis key-value data store.

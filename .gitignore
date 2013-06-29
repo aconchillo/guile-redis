@@ -1,0 +1,16 @@
+
+/autom4te.cache
+/build-aux/install-sh
+/build-aux/missing
+
+/aclocal.m4
+/config.log
+/config.status
+/configure
+/env
+
+Makefile
+Makefile.in
+*.go
+
+guile-redis-*

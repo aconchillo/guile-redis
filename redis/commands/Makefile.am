@@ -1,5 +1,5 @@
 #
-# configure.ac
+# Makefile.am
 #
 # Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
 #
@@ -21,20 +21,18 @@
 # 02110-1301 USA
 #
 
-AC_INIT([guile-redis], [0.1.0], [aconchillo@gmail.com])
-AC_CONFIG_SRCDIR(redis.scm)
-AC_CONFIG_AUX_DIR([build-aux])
-AM_INIT_AUTOMAKE([color-tests -Wall -Wno-portability])
-AM_SILENT_RULES([yes])
+moddir=$(prefix)/share/guile/site/redis/commands
 
-GUILE_PROGS
+SOURCES = define.scm connection.scm
 
-AC_CONFIG_FILES([Makefile
-                 redis/Makefile
-                 redis/commands/Makefile])
+GOBJECTS = $(SOURCES:%.scm=%.go)
 
-AC_CONFIG_FILES([env], [chmod +x env])
+nobase_mod_DATA = $(SOURCES) $(NOCOMP_SOURCES) $(GOBJECTS)
+EXTRA_DIST = $(SOURCES) $(NOCOMP_SOURCES)
 
-AC_OUTPUT
+CLEANFILES = $(GOBJECTS)
 
-# configure.ac ends here
+GUILE_WARNINGS = -Wunbound-variable -Warity-mismatch -Wformat
+SUFFIXES = .scm .go
+.scm.go:
+	$(top_builddir)/env $(GUILE_TOOLS) compile $(GUILE_WARNINGS) -o "$@" "$<"

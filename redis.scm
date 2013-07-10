@@ -27,7 +27,8 @@
 
 (define-module (redis)
   #:use-module (redis main)
-  #:use-module (redis commands connection))
+  #:use-module (redis commands connection)
+  #:use-module (redis commands strings))
 
 (define-syntax re-export-modules
   (syntax-rules ()
@@ -38,6 +39,7 @@
        ...))))
 
 (re-export-modules (redis main)
-                   (redis commands connection))
+                   (redis commands connection)
+                   (redis commands strings))
 
 ;;; (json) ends here

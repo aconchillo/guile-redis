@@ -27,7 +27,11 @@
 
 (define-module (redis commands define)
   #:use-module (srfi srfi-9)
-  #:export (make-command))
+  #:export (make-command
+            redis-command?
+            redis-cmd-name
+            redis-cmd-params
+            redis-cmd-reply))
 
 (define-record-type <redis-command>
   (create-command name params reply)
@@ -38,22 +42,3 @@
 
 (define* (make-command name reply #:rest args)
   (create-command name args reply))
-
-
-;; (redis-send conn '((ping)
-;;                    (select 13)
-;;                    (quit)))
-
-;; (define (command->string command)
-;;   )
-
-;; (define (commands->string commands)
-;;   (map
-;;    (lambda (cmd)
-;;      (format #f "~a\r\n" (command->string cmd)))
-;;    commands))
-
-;; (define (redis-send conn commands)
-;;   (let send ((sock (redis-socket conn)))
-;;     (simple-format sock (string-join (commands->string commands)))
-;;     ))

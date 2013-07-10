@@ -26,11 +26,46 @@
 ;;; Code:
 
 (define-module (redis utils)
+  #:use-module (redis commands define)
   #:use-module (ice-9 rdelim)
+  #:use-module (rnrs bytevectors)
   #:use-module (srfi srfi-9)
-  #:export (read-error
+  #:export (send-commands
+            read-error
             read-status
-            read-integer))
+            read-integer
+            received-commands))
+
+(define (send-list sock l)
+  (simple-format sock "*~a\r\n" (length l))
+  (for-each
+   (lambda (elem)
+     (simple-format sock "$~a\r\n" (bytevector-length (string->utf8 elem)))
+     (simple-format sock "~a\r\n" elem))
+   l))
+
+(define (send-commands sock commands)
+  (cond
+   ((list? commands)
+    (for-each
+       (lambda (cmd)
+         (send-list sock (cons (redis-cmd-name cmd)
+                               (redis-cmd-params cmd))))
+       commands))
+   (else
+    (send-list sock (cons (redis-cmd-name commands)
+                          (redis-cmd-params commands)))))
+  (force-output sock))
+
+(define (receive-commands sock commands)
+  (cond
+   ((list? commands)
+    (map
+     (lambda (cmd)
+       ((redis-cmd-reply cmd) sock))
+     commands))
+   (else
+    ((redis-cmd-reply commands) sock))))
 
 (define (redis-read-delimited sock)
   (let ((str (read-delimited "\r" sock)))

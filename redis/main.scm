@@ -26,6 +26,7 @@
 ;;; Code:
 
 (define-module (redis main)
+  #:use-module (redis utils)
   #:use-module (srfi srfi-9)
   #:export (redis-connect
             redis-connection?
@@ -54,7 +55,10 @@ connection."
   "Close the @var{connection} to the redis server."
   (shutdown (redis-socket conn) 2))
 
-(define (redis-send conn command)
+(define (redis-send conn commands)
+  "Send the given list of @var{commands} to the redis connection
+@var{conn}. @var{commands} can be a single command or a list of
+commands."
   (let ((sock (redis-socket conn)))
-    (simple-format sock "~a\r\n" command)
-    (force-output sock)))
+    (send-commands sock commands)
+    (receive-commands sock commands)))

@@ -34,28 +34,33 @@
             read-error
             read-status
             read-integer
-            received-commands))
+            receive-commands))
 
-(define (send-list sock l)
-  (simple-format sock "*~a\r\n" (length l))
-  (for-each
-   (lambda (elem)
-     (simple-format sock "$~a\r\n" (bytevector-length (string->utf8 elem)))
-     (simple-format sock "~a\r\n" elem))
-   l))
+(define (command->list cmd)
+  (cons (redis-cmd-name cmd) (redis-cmd-params cmd)))
+
+(define (command->string cmd)
+  (let ((l (command->list cmd)))
+    (call-with-output-string
+     (lambda (port)
+       (simple-format port "*~a\r\n" (length l))
+       (for-each
+        (lambda (e)
+          (simple-format port "$~a\r\n" (bytevector-length (string->utf8 e)))
+          (simple-format port "~a\r\n" e))
+        l)))))
+
+(define (send-command sock cmd)
+  (display (command->string cmd) sock)
+  (force-output sock))
 
 (define (send-commands sock commands)
   (cond
    ((list? commands)
     (for-each
-       (lambda (cmd)
-         (send-list sock (cons (redis-cmd-name cmd)
-                               (redis-cmd-params cmd))))
+       (lambda (cmd) (send-command sock cmd))
        commands))
-   (else
-    (send-list sock (cons (redis-cmd-name commands)
-                          (redis-cmd-params commands)))))
-  (force-output sock))
+   (else (send-command sock commands))))
 
 (define (receive-commands sock commands)
   (cond

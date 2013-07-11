@@ -28,13 +28,10 @@
 (define-module (redis commands strings)
   #:use-module (redis utils)
   #:use-module (redis commands define)
-  #:export (append
-            bitcount bitop
-            decr decrby
-            get getbit getrange getset
-            incr incrby incrbyfloat
-            mget mset msetnx
-            psetex))
+  #:export (append bitcount bitop decr decrby get
+            getbit getrange getset incr incrby incrbyfloat
+            mget mset msetnx psetex set setbit
+            setex setnx setrange strlen))
 
 (define (append key value)
   (make-command "APPEND" read-integer key value))
@@ -82,7 +79,25 @@
 (define* (msetnx key value #:rest pairs)
   (make-command "MSETNX" read-integer key value pairs))
 
-(define* (psetex key milliseconds value)
+(define (psetex key milliseconds value)
   (make-command "PSETEX" read-status key milliseconds value))
+
+(define (set key value)
+  (make-command "SET" read-status key value))
+
+(define (setbit key offset value)
+  (make-command "SETBIT" read-integer key offset value))
+
+(define (setex key seconds value)
+  (make-command "SETEX" read-status key seconds value))
+
+(define (setnx key value)
+  (make-command "SETNX" read-integer key value))
+
+(define (setrange key offset value)
+  (make-command "SETRANGE" read-integer key offset value))
+
+(define (strlen key)
+  (make-command "STRLEN" read-integer key))
 
 ;;; (redis commands strings) ends here

@@ -23,7 +23,7 @@
 
 moddir=$(prefix)/share/guile/site/redis/commands
 
-SOURCES = define.scm connection.scm strings.scm
+SOURCES = define.scm connection.scm keys.scm strings.scm
 
 GOBJECTS = $(SOURCES:%.scm=%.go)
 

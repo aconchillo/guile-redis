@@ -71,7 +71,7 @@
   (make-command "INCRBYFLOAT" read-bulk key increment))
 
 (define* (mget key #:rest keys)
-  (make-command "MGET" read-multi-bulk key keys))
+  (apply make-command `("MGET" ,read-multi-bulk ,key ,@keys)))
 
 (define* (mset key value #:rest pairs)
   (make-command "MSET" read-status key value pairs))

@@ -35,6 +35,7 @@
             read-status
             read-integer
             read-bulk
+            read-multi-bulk
             receive-commands))
 
 (define (command->list cmd)
@@ -100,6 +101,26 @@
 (define (read-bulk sock)
   (let ((c (read-char sock)))
     (case c
+      ((#\$)
+       (let ((len (string->number (redis-read-delimited sock))))
+         (if (> len 0) (redis-read-delimited sock) #nil)))
+      ((#\-) (read-error sock))
+      (else (throw 'redis-invalid)))))
+
+(define (build-list len proc)
+  (let loop ((iter len) (result '()))
+    (cond
+     ((zero? iter) result)
+     (else (loop (- iter 1) (cons (proc) result))))))
+
+(define (read-multi-bulk sock)
+  (let ((c (read-char sock)))
+    (case c
+      ((#\*)
+       (let ((len (string->number (redis-read-delimited sock))))
+         (reverse (build-list len (lambda () (read-multi-bulk sock))))))
+      ((#\+) (redis-read-delimited sock))
+      ((#\:) (string->number (redis-read-delimited sock)))
       ((#\$)
        (let ((len (string->number (redis-read-delimited sock))))
          (if (> len 0) (redis-read-delimited sock) #nil)))

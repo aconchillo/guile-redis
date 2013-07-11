@@ -34,7 +34,7 @@
             renamenx restore sort ttl type))
 
 (define* (del key #:rest keys)
-  (make-command "DEL" read-integer key keys))
+  (apply make-command `("DEL" ,read-integer ,key ,@keys)))
 
 (define (dump key)
   (make-command "DUMP" read-bulk key))
@@ -61,9 +61,12 @@
 
 (define* (object subcommand #:rest arguments)
   (case subcommand
-    ((REFCOUNT) (make-command "OBJECT" read-integer "REFCOUNT" arguments))
-    ((ENCODING) (make-command "OBJECT" read-bulk "ENCODING" arguments))
-    ((IDLETIME) (make-command "OBJECT" read-integer "IDLETIME" arguments))
+    ((REFCOUNT)
+     (apply make-command `("OBJECT" ,read-integer "REFCOUNT" ,@arguments)))
+    ((ENCODING)
+     (apply make-command `("OBJECT" ,read-bulk "ENCODING" ,@arguments)))
+    ((IDLETIME)
+     (apply make-command `("OBJECT" ,read-integer "IDLETIME" ,@arguments)))
     (else (throw 'redis-error "Invalid subcommand"))))
 
 (define (persist key)

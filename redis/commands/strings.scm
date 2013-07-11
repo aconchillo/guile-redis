@@ -74,10 +74,10 @@
   (apply make-command `("MGET" ,read-multi-bulk ,key ,@keys)))
 
 (define* (mset key value #:rest pairs)
-  (make-command "MSET" read-status key value pairs))
+  (apply make-command `("MSET" ,read-status ,key ,value ,@pairs)))
 
 (define* (msetnx key value #:rest pairs)
-  (make-command "MSETNX" read-integer key value pairs))
+  (apply make-command `("MSETNX" ,read-integer ,key ,value ,@pairs)))
 
 (define (psetex key milliseconds value)
   (make-command "PSETEX" read-status key milliseconds value))

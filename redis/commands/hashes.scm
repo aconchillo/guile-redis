@@ -34,7 +34,7 @@
             hvals))
 
 (define* (hdel key field #:rest fields)
-  (make-command "HDEL" read-integer key field fields))
+  (apply make-command `("HDEL" ,read-integer ,key ,field ,@fields)))
 
 (define (hexists key field)
   (make-command "HEXISTS" read-integer key field))
@@ -58,10 +58,10 @@
   (make-command "HLEN" read-integer key))
 
 (define* (hmget key field #:rest fields)
-  (make-command "HMGET" read-multi-bulk key field fields))
+  (apply make-command `("HMGET" ,read-multi-bulk ,key ,field ,@fields)))
 
 (define* (hmset key field value #:rest pairs)
-  (make-command "HMSET" read-status key field value pairs))
+  (apply make-command `("HMSET" ,read-status ,key ,field ,value ,@pairs)))
 
 (define (hset key field value)
   (make-command "HSET" read-integer key field value))

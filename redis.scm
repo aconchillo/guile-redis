@@ -42,4 +42,4 @@
                    (redis commands connection)
                    (redis commands strings))
 
-;;; (json) ends here
+;;; (redis) ends here

@@ -42,3 +42,5 @@
 
 (define* (make-command name reply #:rest args)
   (create-command name args reply))
+
+;;; (redis commands define) ends here

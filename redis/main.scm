@@ -62,3 +62,5 @@ commands."
   (let ((sock (redis-socket conn)))
     (send-commands sock commands)
     (receive-commands sock commands)))
+
+;;; (redis main) ends here

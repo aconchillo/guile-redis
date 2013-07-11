@@ -33,52 +33,56 @@
             decr decrby
             get getbit getrange getset
             incr incrby incrbyfloat
-            mget mset msetnx))
+            mget mset msetnx
+            psetex))
 
 (define (append key value)
-  (make-command "APPEND" read-status key value))
+  (make-command "APPEND" read-integer key value))
 
-(define* (bitcount key #:optional (start 0) (end 0))
-  (make-command "BITCOUNT" read-status key start end))
+(define* (bitcount key #:optional (start 0) (end -1))
+  (make-command "BITCOUNT" read-integer key
+                (number->string start) (number->string end)))
 
 (define* (bitop operation destkey key #:rest keys)
-  (make-command "BITOP" read-status operation destkey key keys))
+  (make-command "BITOP" read-integer operation destkey key keys))
 
 (define (decr key)
-  (make-command "DECR" read-status key))
+  (make-command "DECR" read-integer key))
 
 (define (decrby key decrement)
-  (make-command "DECR" read-status key decrement))
+  (make-command "DECRBY" read-integer key decrement))
 
 (define (get key)
-  (make-command "GET" read-status key))
+  (make-command "GET" read-bulk key))
 
 (define (getbit key offset)
-  (make-command "GETBIT" read-status key offset))
+  (make-command "GETBIT" read-integer key offset))
 
 (define (getrange key start end)
-  (make-command "GETRANGE" read-status key start end))
+  (make-command "GETRANGE" read-bulk key start end))
 
 (define (getset key value)
-  (make-command "GETVALUE" read-status key value))
+  (make-command "GETSET" read-bulk key value))
 
 (define (incr key)
-  (make-command "INCR" read-status key))
+  (make-command "INCR" read-integer key))
 
 (define (incrby key increment)
-  (make-command "INCRBY" read-status key increment))
+  (make-command "INCRBY" read-integer key increment))
 
 (define (incrbyfloat key increment)
-  (make-command "INCRBYFLOAT" read-status key increment))
+  (make-command "INCRBYFLOAT" read-bulk key increment))
 
 (define* (mget key #:rest keys)
-  (make-command "MGET" read-status key keys))
+  (make-command "MGET" read-multi-bulk key keys))
 
 (define* (mset key value #:rest pairs)
   (make-command "MSET" read-status key value pairs))
 
 (define* (msetnx key value #:rest pairs)
-  (make-command "MSETNX" read-status key value pairs))
+  (make-command "MSETNX" read-integer key value pairs))
 
 (define* (psetex key milliseconds value)
   (make-command "PSETEX" read-status key milliseconds value))
+
+;;; (redis commands strings) ends here

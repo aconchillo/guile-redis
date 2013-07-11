@@ -34,6 +34,7 @@
             read-error
             read-status
             read-integer
+            read-bulk
             receive-commands))
 
 (define (command->list cmd)
@@ -95,3 +96,14 @@
       ((#\:) (string->number (redis-read-delimited sock)))
       ((#\-) (read-error sock))
       (else (throw 'redis-invalid)))))
+
+(define (read-bulk sock)
+  (let ((c (read-char sock)))
+    (case c
+      ((#\$)
+       (let ((len (string->number (redis-read-delimited sock))))
+         (if (> len 0) (redis-read-delimited sock) #nil)))
+      ((#\-) (read-error sock))
+      (else (throw 'redis-invalid)))))
+
+;;; (redis utils) ends here

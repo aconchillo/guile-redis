@@ -34,7 +34,7 @@
   (make-command "AUTH" read-status password))
 
 (define (echo message)
-  (make-command "ECHO" read-status message))
+  (make-command "ECHO" read-bulk message))
 
 (define (ping)
   (make-command "PING" read-status))
@@ -44,3 +44,5 @@
 
 (define (select index)
   (make-command "SELECT" read-status index))
+
+;;; (redis commands connection) ends here

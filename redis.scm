@@ -28,6 +28,7 @@
 (define-module (redis)
   #:use-module (redis main)
   #:use-module (redis commands connection)
+  #:use-module (redis commands hashes)
   #:use-module (redis commands keys)
   #:use-module (redis commands strings))
 
@@ -41,6 +42,7 @@
 
 (re-export-modules (redis main)
                    (redis commands connection)
+                   (redis commands hashes)
                    (redis commands keys)
                    (redis commands strings))
 

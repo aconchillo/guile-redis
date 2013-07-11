@@ -26,22 +26,11 @@
 ;;; Code:
 
 (define-module (redis main)
+  #:use-module (redis connection)
   #:use-module (redis utils)
-  #:use-module (srfi srfi-9)
   #:export (redis-connect
-            redis-connection?
-            redis-host
-            redis-port
-            redis-socket
             redis-close
             redis-send))
-
-(define-record-type <redis-connection>
-  (make-connection host port sock)
-  redis-connection?
-  (host redis-host)
-  (port redis-port)
-  (sock redis-socket))
 
 (define* (redis-connect #:key (host "127.0.0.1") (port 6379))
   "Establish a connection to the redis server at the given @var{host}
@@ -59,8 +48,7 @@ connection."
   "Send the given list of @var{commands} to the redis connection
 @var{conn}. @var{commands} can be a single command or a list of
 commands."
-  (let ((sock (redis-socket conn)))
-    (send-commands sock commands)
-    (receive-commands sock commands)))
+  (send-commands conn commands)
+  (receive-commands conn commands))
 
 ;;; (redis main) ends here

@@ -1,4 +1,4 @@
-;;; (redis commands connection) --- redis module for Guile.
+;;; (redis connection) --- redis module for Guile.
 
 ;; Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
@@ -25,29 +25,19 @@
 
 ;;; Code:
 
-(define-module (redis commands connection)
-  #:use-module (redis main)
-  #:use-module (redis utils)
-  #:use-module (redis commands define)
-  #:export (auth echo ping quit select))
+(define-module (redis connection)
+  #:use-module (srfi srfi-9)
+  #:export (make-connection
+            redis-connection?
+            redis-host
+            redis-port
+            redis-socket))
 
-(define (auth password)
-  (make-command "AUTH" read-status password))
+(define-record-type <redis-connection>
+  (make-connection host port sock)
+  redis-connection?
+  (host redis-host)
+  (port redis-port)
+  (sock redis-socket))
 
-(define (echo message)
-  (make-command "ECHO" read-bulk message))
-
-(define (ping)
-  (make-command "PING" read-status))
-
-(define (quit)
-  (make-command
-   "QUIT"
-   (lambda (conn)
-     (read-status conn)
-     (redis-close conn))))
-
-(define (select index)
-  (make-command "SELECT" read-status index))
-
-;;; (redis commands connection) ends here
+;;; (redis connection) ends here

@@ -26,6 +26,7 @@
 ;;; Code:
 
 (define-module (redis utils)
+  #:use-module (redis connection)
   #:use-module (redis commands define)
   #:use-module (ice-9 rdelim)
   #:use-module (rnrs bytevectors)
@@ -52,60 +53,65 @@
           (simple-format port "~a\r\n" e))
         l)))))
 
-(define (send-command sock cmd)
-  (display (command->string cmd) sock)
-  (force-output sock))
+(define (send-command conn cmd)
+  (let ((sock (redis-socket conn)))
+    (display (command->string cmd) sock)
+    (force-output sock)))
 
-(define (send-commands sock commands)
+(define (send-commands conn commands)
   (cond
    ((list? commands)
     (for-each
-       (lambda (cmd) (send-command sock cmd))
-       commands))
-   (else (send-command sock commands))))
+     (lambda (cmd) (send-command conn cmd))
+     commands))
+   (else (send-command conn commands))))
 
-(define (receive-commands sock commands)
+(define (receive-commands conn commands)
   (cond
    ((list? commands)
     (map
      (lambda (cmd)
-       ((redis-cmd-reply cmd) sock))
+       ((redis-cmd-reply cmd) conn))
      commands))
    (else
-    ((redis-cmd-reply commands) sock))))
+    ((redis-cmd-reply commands) conn))))
 
-(define (redis-read-delimited sock)
-  (let ((str (read-delimited "\r" sock)))
+(define (redis-read-delimited conn)
+  (let* ((sock (redis-socket conn))
+         (str (read-delimited "\r" sock)))
     ;; Skip \n
     (read-char sock)
     str))
 
-(define (read-error sock)
-  (let ((err (redis-read-delimited sock)))
-    (throw 'redis-error err)))
+(define (read-error conn)
+  (let ((err (redis-read-delimited conn)))
+    (throw 'redis-error err conn)))
 
-(define (read-status sock)
-  (let ((c (read-char sock)))
+(define (read-status conn)
+  (let* ((sock (redis-socket conn))
+         (c (read-char sock)))
     (case c
-      ((#\+) (redis-read-delimited sock))
-      ((#\-) (read-error sock))
-      (else (throw 'redis-invalid)))))
+      ((#\+) (redis-read-delimited conn))
+      ((#\-) (read-error conn))
+      (else (throw 'redis-invalid conn)))))
 
-(define (read-integer sock)
-  (let ((c (read-char sock)))
+(define (read-integer conn)
+  (let* ((sock (redis-socket conn))
+         (c (read-char sock)))
     (case c
-      ((#\:) (string->number (redis-read-delimited sock)))
-      ((#\-) (read-error sock))
-      (else (throw 'redis-invalid)))))
+      ((#\:) (string->number (redis-read-delimited conn)))
+      ((#\-) (read-error conn))
+      (else (throw 'redis-invalid conn)))))
 
-(define (read-bulk sock)
-  (let ((c (read-char sock)))
+(define (read-bulk conn)
+  (let* ((sock (redis-socket conn))
+        (c (read-char sock)))
     (case c
       ((#\$)
-       (let ((len (string->number (redis-read-delimited sock))))
-         (if (> len 0) (redis-read-delimited sock) #nil)))
-      ((#\-) (read-error sock))
-      (else (throw 'redis-invalid)))))
+       (let ((len (string->number (redis-read-delimited conn))))
+         (if (> len 0) (redis-read-delimited conn) #nil)))
+      ((#\-) (read-error conn))
+      (else (throw 'redis-invalid conn)))))
 
 (define (build-list len proc)
   (let loop ((iter len) (result '()))
@@ -113,18 +119,19 @@
      ((zero? iter) result)
      (else (loop (- iter 1) (cons (proc) result))))))
 
-(define (read-multi-bulk sock)
-  (let ((c (read-char sock)))
+(define (read-multi-bulk conn)
+  (let* ((sock (redis-socket conn))
+         (c (read-char sock)))
     (case c
       ((#\*)
-       (let ((len (string->number (redis-read-delimited sock))))
-         (reverse (build-list len (lambda () (read-multi-bulk sock))))))
-      ((#\+) (redis-read-delimited sock))
-      ((#\:) (string->number (redis-read-delimited sock)))
+       (let ((len (string->number (redis-read-delimited conn))))
+         (reverse (build-list len (lambda () (read-multi-bulk conn))))))
+      ((#\+) (redis-read-delimited conn))
+      ((#\:) (string->number (redis-read-delimited conn)))
       ((#\$)
-       (let ((len (string->number (redis-read-delimited sock))))
-         (if (> len 0) (redis-read-delimited sock) #nil)))
-      ((#\-) (read-error sock))
-      (else (throw 'redis-invalid)))))
+       (let ((len (string->number (redis-read-delimited conn))))
+         (if (> len 0) (redis-read-delimited conn) #nil)))
+      ((#\-) (read-error conn))
+      (else (throw 'redis-invalid conn)))))
 
 ;;; (redis utils) ends here

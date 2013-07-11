@@ -25,7 +25,7 @@ SUBDIRS = commands
 
 moddir=$(prefix)/share/guile/site/redis
 
-SOURCES = main.scm utils.scm
+SOURCES = connection.scm main.scm utils.scm
 
 GOBJECTS = $(SOURCES:%.scm=%.go)
 

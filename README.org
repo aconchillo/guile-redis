@@ -2,10 +2,8 @@
 * guile-redis
 
 guile-redis is a Guile module for the redis key-value data store. It
-supports the following features:
-
-- Most commands up to redis 2.6.
-- Multiple commands and pipelining.
+supports most commands up to redis 2.6. It also supports multiple
+commands and pipelining.
 
 
 * Installation

@@ -33,6 +33,7 @@ SOURCES = \
 	sets.scm \
 	sortedsets.scm \
 	strings.scm \
+	transactions.scm \
 	#
 
 GOBJECTS = $(SOURCES:%.scm=%.go)

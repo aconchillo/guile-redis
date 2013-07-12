@@ -34,7 +34,8 @@
   #:use-module (redis commands publish)
   #:use-module (redis commands sets)
   #:use-module (redis commands sortedsets)
-  #:use-module (redis commands strings))
+  #:use-module (redis commands strings)
+  #:use-module (redis commands transactions))
 
 (define-syntax re-export-modules
   (syntax-rules ()
@@ -52,6 +53,7 @@
                    (redis commands publish)
                    (redis commands sets)
                    (redis commands sortedsets)
-                   (redis commands strings))
+                   (redis commands strings)
+                   (redis commands transactions))
 
 ;;; (redis) ends here

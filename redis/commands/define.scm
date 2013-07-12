@@ -25,7 +25,7 @@
 
 ;; The following is a convenient Emacs interactive function to create
 ;; new Redis command definitions. Uncomment it temporarily, go to the
-;; end of the function and M-x eval-fun.
+;; end of the function and M-x eval-defun.
 
 ;; Once the function is loaded in Emacs, M-x redis-add-command.
 
@@ -34,13 +34,7 @@
 ;;   (let ((command (read-string "Command: "))
 ;;         (args (read-string "Arguments: "))
 ;;         (opt-args (read-string "Optional arguments: "))
-;;         (rest-args (read-string "Rest arguments: "))
-;;         (reply (completing-read "Reply function: "
-;;                                 '(("read-status" 1)
-;;                                   ("read-integer" 2)
-;;                                   ("read-bulk" 3)
-;;                                   ("read-multi-bulk" 4))
-;;                                 nil t)))
+;;         (rest-args (read-string "Rest arguments: ")))
 ;;     (cond
 ;;      ((or (> (length opt-args) 0) (> (length rest-args) 0))
 ;;       (insert "(define* (" command)
@@ -51,10 +45,18 @@
 ;;       (insert "(define (" command)
 ;;       (if (> (length args) 0) (insert " " args))))
 ;;     (insert ")\n")
-;;     (insert "  (make-command \"" (upcase command) "\" " reply)
-;;     (if (> (length args) 0) (insert " " args))
-;;     (if (> (length opt-args) 0) (insert " " opt-args))
-;;     (if (> (length rest-args) 0) (insert " " rest-args))
+;;     (cond
+;;      ((> (length rest-args) 0)
+;;       (insert " (apply make-command `(")
+;;       (insert "\"" (upcase command) "\" ," args)
+;;       (if (> (length opt-args) 0) (insert " ," opt-args))
+;;       (insert " ,@" rest-args)
+;;       (insert ")"))
+;;      (t
+;;       (insert " (make-command \"" (upcase command) "\"")
+;;       (if (> (length args) 0) (insert " " args))
+;;       (if (> (length opt-args) 0) (insert " " opt-args))
+;;       (if (> (length rest-args) 0) (insert " " rest-args))))
 ;;     (insert "))\n")))
 
 ;;; Code:

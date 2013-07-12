@@ -31,6 +31,7 @@ SOURCES = \
 	lists.scm \
 	publish.scm \
 	scripting.scm \
+	server.scm \
 	sets.scm \
 	sortedsets.scm \
 	strings.scm \

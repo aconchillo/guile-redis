@@ -30,6 +30,7 @@ SOURCES = \
 	keys.scm \
 	lists.scm \
 	publish.scm \
+	scripting.scm \
 	sets.scm \
 	sortedsets.scm \
 	strings.scm \

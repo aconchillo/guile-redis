@@ -31,13 +31,44 @@
   #:use-module (ice-9 rdelim)
   #:use-module (rnrs bytevectors)
   #:use-module (srfi srfi-9)
-  #:export (send-commands
-            read-error
-            read-status
-            read-integer
-            read-bulk
-            read-multi-bulk
+  #:export (read-reply
+            send-commands
             receive-commands))
+
+(define (redis-read-delimited conn)
+  (let* ((sock (redis-socket conn))
+         (str (read-delimited "\r" sock)))
+    ;; Skip \n
+    (read-char sock)
+    str))
+
+(define (build-list len proc)
+  (let loop ((iter len) (result '()))
+    (cond
+     ((zero? iter) result)
+     (else (loop (- iter 1) (cons (proc) result))))))
+
+(define (read-reply conn)
+  (let* ((sock (redis-socket conn))
+         (c (read-char sock)))
+    (case c
+      ;; Status
+      ((#\+) (redis-read-delimited conn))
+      ;; Integer
+      ((#\:) (string->number (redis-read-delimited conn)))
+      ;; Bulk
+      ((#\$)
+       (let ((len (string->number (redis-read-delimited conn))))
+         (if (> len 0) (redis-read-delimited conn) #nil)))
+      ;; Multi-bulk
+      ((#\*)
+       (let ((len (string->number (redis-read-delimited conn))))
+         (reverse (build-list len (lambda () (read-reply conn))))))
+      ;; Error
+      ((#\-)
+       (let ((err (redis-read-delimited conn)))
+         (throw 'redis-error err conn)))
+      (else (throw 'redis-invalid conn)))))
 
 (define (command->list cmd)
   (cons (redis-cmd-name cmd) (redis-cmd-params cmd)))
@@ -75,63 +106,5 @@
      commands))
    (else
     ((redis-cmd-reply commands) conn))))
-
-(define (redis-read-delimited conn)
-  (let* ((sock (redis-socket conn))
-         (str (read-delimited "\r" sock)))
-    ;; Skip \n
-    (read-char sock)
-    str))
-
-(define (read-error conn)
-  (let ((err (redis-read-delimited conn)))
-    (throw 'redis-error err conn)))
-
-(define (read-status conn)
-  (let* ((sock (redis-socket conn))
-         (c (read-char sock)))
-    (case c
-      ((#\+) (redis-read-delimited conn))
-      ((#\-) (read-error conn))
-      (else (throw 'redis-invalid conn)))))
-
-(define (read-integer conn)
-  (let* ((sock (redis-socket conn))
-         (c (read-char sock)))
-    (case c
-      ((#\:) (string->number (redis-read-delimited conn)))
-      ((#\-) (read-error conn))
-      (else (throw 'redis-invalid conn)))))
-
-(define (read-bulk conn)
-  (let* ((sock (redis-socket conn))
-        (c (read-char sock)))
-    (case c
-      ((#\$)
-       (let ((len (string->number (redis-read-delimited conn))))
-         (if (> len 0) (redis-read-delimited conn) #nil)))
-      ((#\-) (read-error conn))
-      (else (throw 'redis-invalid conn)))))
-
-(define (build-list len proc)
-  (let loop ((iter len) (result '()))
-    (cond
-     ((zero? iter) result)
-     (else (loop (- iter 1) (cons (proc) result))))))
-
-(define (read-multi-bulk conn)
-  (let* ((sock (redis-socket conn))
-         (c (read-char sock)))
-    (case c
-      ((#\*)
-       (let ((len (string->number (redis-read-delimited conn))))
-         (reverse (build-list len (lambda () (read-multi-bulk conn))))))
-      ((#\+) (redis-read-delimited conn))
-      ((#\:) (string->number (redis-read-delimited conn)))
-      ((#\$)
-       (let ((len (string->number (redis-read-delimited conn))))
-         (if (> len 0) (redis-read-delimited conn) #nil)))
-      ((#\-) (read-error conn))
-      (else (throw 'redis-invalid conn)))))
 
 ;;; (redis utils) ends here

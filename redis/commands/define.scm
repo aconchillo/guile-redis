@@ -62,6 +62,7 @@
 ;;; Code:
 
 (define-module (redis commands define)
+  #:use-module (redis utils)
   #:use-module (srfi srfi-9)
   #:export (make-command
             redis-command?
@@ -76,7 +77,7 @@
   (params redis-cmd-params)
   (reply redis-cmd-reply))
 
-(define* (make-command name reply #:rest args)
-  (create-command name args reply))
+(define* (make-command name #:key (proc read-reply) #:rest args)
+  (create-command name args proc))
 
 ;;; (redis commands define) ends here

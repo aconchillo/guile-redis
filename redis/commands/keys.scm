@@ -34,73 +34,73 @@
             renamenx restore sort ttl type))
 
 (define* (del key #:rest keys)
-  (apply make-command `("DEL" ,read-integer ,key ,@keys)))
+  (apply make-command `("DEL" ,key ,@keys)))
 
 (define (dump key)
-  (make-command "DUMP" read-bulk key))
+  (make-command "DUMP" key))
 
 (define (exists key)
-  (make-command "EXISTS" read-integer key))
+  (make-command "EXISTS" key))
 
 (define (expire key seconds)
-  (make-command "EXPIRE" read-integer key (number->string seconds)))
+  (make-command "EXPIRE" key (number->string seconds)))
 
 (define (expireat key timestamp)
-  (make-command "EXPIREAT" read-integer key (number->string timestamp)))
+  (make-command "EXPIREAT" key (number->string timestamp)))
 
 (define (keys pattern)
-  (make-command "KEYS" read-multi-bulk pattern))
+  (make-command "KEYS" pattern))
 
 (define (migrate host port key destination-db timeout)
-  (make-command "MIGRATE" read-status
+  (make-command "MIGRATE"
                 host (number->string port)
                 key (number->string destination-db) (number->string timeout)))
 
 (define (move key db)
-  (make-command "MOVE" read-integer key (number->string db)))
+  (make-command "MOVE" key (number->string db)))
 
 (define* (object subcommand #:rest arguments)
   (case subcommand
     ((REFCOUNT)
-     (apply make-command `("OBJECT" ,read-integer "REFCOUNT" ,@arguments)))
+     (apply make-command `("OBJECT" "REFCOUNT" ,@arguments)))
     ((ENCODING)
-     (apply make-command `("OBJECT" ,read-bulk "ENCODING" ,@arguments)))
+     (apply make-command `("OBJECT" "ENCODING" ,@arguments)))
     ((IDLETIME)
-     (apply make-command `("OBJECT" ,read-integer "IDLETIME" ,@arguments)))
+     (apply make-command `("OBJECT" "IDLETIME" ,@arguments)))
     (else (throw 'redis-error "Invalid subcommand"))))
 
 (define (persist key)
-  (make-command "PERSIST" read-integer key))
+  (make-command "PERSIST" key))
 
 (define (pexpire key milliseconds)
-  (make-command "PEXPIRE" read-integer key (number->string milliseconds)))
+  (make-command "PEXPIRE" key (number->string milliseconds)))
 
 (define (pexpireat key ms-timestamp)
-  (make-command "PEXPIREAT" read-integer key (number->string ms-timestamp)))
+  (make-command "PEXPIREAT" key (number->string ms-timestamp)))
 
 (define (pttl key)
-  (make-command "PTTL" read-integer key))
+  (make-command "PTTL" key))
 
 (define (randomkey)
-  (make-command "RANDOMKEY" read-bulk))
+  (make-command "RANDOMKEY"))
 
 (define (rename key newkey)
-  (make-command "RENAME" read-status key newkey))
+  (make-command "RENAME" key newkey))
 
 (define (renamenx key newkey)
-  (make-command "RENAMENX" read-integer key newkey))
+  (make-command "RENAMENX" key newkey))
 
 (define (restore key ttl value)
-  (make-command "RESTORE" read-status key (number->string ttl) value))
+  (make-command "RESTORE" key (number->string ttl) value))
 
 ;; TODO add extra arguments
 (define (sort key)
-  (make-command "SORT" read-multi-bulk key))
+  (make-command "SORT" key))
 
 (define (ttl key)
-  (make-command "TTL" read-integer key))
+  (make-command "TTL" key))
 
 (define (type key)
-  (make-command "TYPE" read-status key))
+  (make-command "TYPE" key))
 
 ;;; (redis commands keys) ends here

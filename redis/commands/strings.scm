@@ -34,70 +34,69 @@
             setex setnx setrange strlen))
 
 (define (append key value)
-  (make-command "APPEND" read-integer key value))
+  (make-command "APPEND" key value))
 
 (define* (bitcount key #:optional (start 0) (end -1))
-  (make-command "BITCOUNT" read-integer key
-                (number->string start) (number->string end)))
+  (make-command "BITCOUNT" key (number->string start) (number->string end)))
 
 (define* (bitop operation destkey key #:rest keys)
-  (make-command "BITOP" read-integer operation destkey key keys))
+  (make-command "BITOP" operation destkey key keys))
 
 (define (decr key)
-  (make-command "DECR" read-integer key))
+  (make-command "DECR" key))
 
 (define (decrby key decrement)
-  (make-command "DECRBY" read-integer key decrement))
+  (make-command "DECRBY" key decrement))
 
 (define (get key)
-  (make-command "GET" read-bulk key))
+  (make-command "GET" key))
 
 (define (getbit key offset)
-  (make-command "GETBIT" read-integer key offset))
+  (make-command "GETBIT" key offset))
 
 (define (getrange key start end)
-  (make-command "GETRANGE" read-bulk key start end))
+  (make-command "GETRANGE" key start end))
 
 (define (getset key value)
-  (make-command "GETSET" read-bulk key value))
+  (make-command "GETSET" key value))
 
 (define (incr key)
-  (make-command "INCR" read-integer key))
+  (make-command "INCR" key))
 
 (define (incrby key increment)
-  (make-command "INCRBY" read-integer key increment))
+  (make-command "INCRBY" key increment))
 
 (define (incrbyfloat key increment)
-  (make-command "INCRBYFLOAT" read-bulk key increment))
+  (make-command "INCRBYFLOAT" key increment))
 
 (define* (mget key #:rest keys)
-  (apply make-command `("MGET" ,read-multi-bulk ,key ,@keys)))
+  (apply make-command `("MGET" ,key ,@keys)))
 
 (define* (mset key value #:rest pairs)
-  (apply make-command `("MSET" ,read-status ,key ,value ,@pairs)))
+  (apply make-command `("MSET" ,key ,value ,@pairs)))
 
 (define* (msetnx key value #:rest pairs)
-  (apply make-command `("MSETNX" ,read-integer ,key ,value ,@pairs)))
+  (apply make-command `("MSETNX" ,key ,value ,@pairs)))
 
 (define (psetex key milliseconds value)
-  (make-command "PSETEX" read-status key milliseconds value))
+  (make-command "PSETEX" key milliseconds value))
 
 (define (set key value)
-  (make-command "SET" read-status key value))
+  (make-command "SET" key value))
 
 (define (setbit key offset value)
-  (make-command "SETBIT" read-integer key offset value))
+  (make-command "SETBIT" key offset value))
 
 (define (setex key seconds value)
-  (make-command "SETEX" read-status key seconds value))
+  (make-command "SETEX" key seconds value))
 
 (define (setnx key value)
-  (make-command "SETNX" read-integer key value))
+  (make-command "SETNX" key value))
 
 (define (setrange key offset value)
-  (make-command "SETRANGE" read-integer key offset value))
+  (make-command "SETRANGE" key offset value))
 
 (define (strlen key)
-  (make-command "STRLEN" read-integer key))
+  (make-command "STRLEN" key))
 
 ;;; (redis commands strings) ends here

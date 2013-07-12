@@ -32,22 +32,23 @@
   #:export (auth echo ping quit select))
 
 (define (auth password)
-  (make-command "AUTH" read-status password))
+  (make-command "AUTH" password))
 
 (define (echo message)
-  (make-command "ECHO" read-bulk message))
+  (make-command "ECHO" message))
 
 (define (ping)
-  (make-command "PING" read-status))
+  (make-command "PING"))
 
 (define (quit)
   (make-command
    "QUIT"
+   #:reply
    (lambda (conn)
-     (read-status conn)
+     (read-reply conn)
      (redis-close conn))))
 
 (define (select index)
-  (make-command "SELECT" read-status index))
+  (make-command "SELECT" index))
 
 ;;; (redis commands connection) ends here

@@ -29,6 +29,7 @@ SOURCES = \
 	hashes.scm \
 	keys.scm \
 	lists.scm \
+	sets.scm \
 	strings.scm \
 	#
 

@@ -31,6 +31,7 @@
   #:use-module (redis commands hashes)
   #:use-module (redis commands keys)
   #:use-module (redis commands lists)
+  #:use-module (redis commands sets)
   #:use-module (redis commands strings))
 
 (define-syntax re-export-modules
@@ -46,6 +47,7 @@
                    (redis commands hashes)
                    (redis commands keys)
                    (redis commands lists)
+                   (redis commands sets)
                    (redis commands strings))
 
 ;;; (redis) ends here

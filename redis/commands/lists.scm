@@ -26,8 +26,6 @@
 ;;; Code:
 
 (define-module (redis commands lists)
-  #:use-module (redis main)
-  #:use-module (redis utils)
   #:use-module (redis commands define)
   #:export (blpop brpop brpoplpush lindex linsert
             llen lpop lpush lpushx lrange

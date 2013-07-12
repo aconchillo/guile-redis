@@ -26,7 +26,6 @@
 ;;; Code:
 
 (define-module (redis commands strings)
-  #:use-module (redis utils)
   #:use-module (redis commands define)
   #:export (append bitcount bitop decr decrby get
             getbit getrange getset incr incrby incrbyfloat

@@ -26,7 +26,6 @@
 ;;; Code:
 
 (define-module (redis commands keys)
-  #:use-module (redis utils)
   #:use-module (redis commands define)
   #:export (del dump  exists expire expireat
             keys migrate move object persist

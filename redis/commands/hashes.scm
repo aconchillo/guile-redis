@@ -26,7 +26,6 @@
 ;;; Code:
 
 (define-module (redis commands hashes)
-  #:use-module (redis utils)
   #:use-module (redis commands define)
   #:export (hdel hexists hget hgetall
             hincrby hincrbyfloat hkeys hlen

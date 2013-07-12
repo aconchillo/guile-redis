@@ -28,6 +28,7 @@ SOURCES = \
 	connection.scm \
 	hashes.scm \
 	keys.scm \
+	lists.scm \
 	strings.scm \
 	#
 

@@ -33,8 +33,8 @@
             pexpire pexpireat pttl randomkey rename
             renamenx restore sort ttl type))
 
-(define* (del key #:rest keys)
-  (apply make-command `("DEL" ,key ,@keys)))
+(define (del keys)
+  (apply make-command `("DEL" ,@keys)))
 
 (define (dump key)
   (make-command "DUMP" key))
@@ -67,7 +67,7 @@
      (apply make-command `("OBJECT" "ENCODING" ,@arguments)))
     ((IDLETIME)
      (apply make-command `("OBJECT" "IDLETIME" ,@arguments)))
-    (else (throw 'redis-error "Invalid subcommand"))))
+    (else (throw 'redis-error "Invalid OBJECT subcommand"))))
 
 (define (persist key)
   (make-command "PERSIST" key))

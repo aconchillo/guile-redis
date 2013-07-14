@@ -40,15 +40,15 @@ connection."
     (connect sock AF_INET (inet-pton AF_INET host) port)
     (make-connection host port sock)))
 
-(define (redis-close conn)
+(define (redis-close connection)
   "Close the @var{connection} to the redis server."
-  (shutdown (redis-socket conn) 2))
+  (shutdown (redis-socket connection) 2))
 
-(define (redis-send conn commands)
-  "Send the given list of @var{commands} to the redis connection
-@var{conn}. @var{commands} can be a single command or a list of
+(define (redis-send connection commands)
+  "Send the given list of @var{commands} to the redis
+@var{connection}. @var{commands} can be a single command or a list of
 commands."
-  (send-commands conn commands)
-  (receive-commands conn commands))
+  (send-commands connection commands)
+  (receive-commands connection commands))
 
 ;;; (redis main) ends here

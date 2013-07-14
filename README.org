@@ -35,3 +35,21 @@ your system's Guile. If so, you need to indicate Guile where to find
 guile-redis, for example:
 
     : $ GUILE_LOAD_PATH=/usr/local/share/guile/site guile
+
+* Usage
+
+** Procedures
+
+- (*redis-connect* #:key host port) : Establish a connection to the
+  redis server at the given /host/ and /port/. Return a redis
+  connection.
+
+  - /host/ : it defaults to 127.0.0.1.
+  - /port/ : it defaults to 6379.
+
+- (*redis-close* connection) : Close the /connection/ to the redis
+  server.
+
+- (*redis-send* commands) : Send the given list of /commands/ to the
+  redis /connection/. /commands/ can be a single command or a list of
+  commands.

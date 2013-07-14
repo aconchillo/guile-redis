@@ -41,7 +41,7 @@ guile-redis, for example:
 ** Procedures
 
 - (*redis-connect* #:key host port) : Establish a connection to the
-  redis server at the given /host/ and /port/. Return a redis
+  redis server at the given /host/ and /port/ and return a redis
   connection.
 
   - /host/ : it defaults to 127.0.0.1.

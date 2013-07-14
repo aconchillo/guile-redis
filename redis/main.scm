@@ -34,8 +34,8 @@
 
 (define* (redis-connect #:key (host "127.0.0.1") (port 6379))
   "Establish a connection to the redis server at the given @var{host}
-and @var{port}. The @var{port} defaults to 6379. Return a redis
-connection."
+and @var{port}. The @var{host} defaults to 127.0.0.1 and @var{port}
+defaults to 6379. Returns a redis connection."
   (let ((sock (socket PF_INET SOCK_STREAM 0)))
     (connect sock AF_INET (inet-pton AF_INET host) port)
     (make-connection host port sock)))

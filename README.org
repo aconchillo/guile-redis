@@ -40,6 +40,12 @@ guile-redis, for example:
 
 ** Procedures
 
+The main interface to the redis server is really simply. It consists on
+three procedures, the most important one being /redis-send/ which
+basically sends commands to the server. There are other procedures to
+create new commands and parse replies that you can also use if you are
+missing anything.
+
 - (*redis-connect* #:key host port) : Establish a connection to the
   redis server at the given /host/ and /port/ and return a redis
   connection.

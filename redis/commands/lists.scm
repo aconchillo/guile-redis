@@ -47,7 +47,7 @@
 (define (linsert key where pivot value)
   (case where
     ((BEFORE) (make-command "LINSERT" key "BEFORE" pivot value))
-    ((AFTER) (make-command "LINSERT" key "BEFORE" pivot value))
+    ((AFTER) (make-command "LINSERT" key "AFTER" pivot value))
     (else (throw 'redis-error "Invalid LINSERT position"))))
 
 (define (llen key)

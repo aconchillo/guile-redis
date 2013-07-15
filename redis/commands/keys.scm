@@ -30,7 +30,7 @@
   #:export (del dump  exists expire expireat
             keys migrate move object persist
             pexpire pexpireat pttl randomkey rename
-            renamenx restore sort ttl type))
+            renamenx restore ttl type))
 
 (define (del keys)
   (apply make-command `("DEL" ,@keys)))
@@ -92,9 +92,7 @@
 (define (restore key ttl value)
   (make-command "RESTORE" key (number->string ttl) value))
 
-;; TODO add extra arguments
-(define (sort key)
-  (make-command "SORT" key))
+;; TODO: SORT
 
 (define (ttl key)
   (make-command "TTL" key))

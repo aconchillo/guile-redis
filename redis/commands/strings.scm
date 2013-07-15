@@ -45,16 +45,16 @@
   (make-command "DECR" key))
 
 (define (decrby key decrement)
-  (make-command "DECRBY" key decrement))
+  (make-command "DECRBY" key (number->string decrement)))
 
 (define (get key)
   (make-command "GET" key))
 
 (define (getbit key offset)
-  (make-command "GETBIT" key offset))
+  (make-command "GETBIT" key (number->string offset)))
 
 (define (getrange key start end)
-  (make-command "GETRANGE" key start end))
+  (make-command "GETRANGE" key (number->string start) (number->string end)))
 
 (define (getset key value)
   (make-command "GETSET" key value))
@@ -63,37 +63,38 @@
   (make-command "INCR" key))
 
 (define (incrby key increment)
-  (make-command "INCRBY" key increment))
+  (make-command "INCRBY" key (number->string increment)))
 
 (define (incrbyfloat key increment)
-  (make-command "INCRBYFLOAT" key increment))
+  (make-command "INCRBYFLOAT" key (number->string increment)))
 
 (define (mget keys)
   (apply make-command `("MGET" ,@keys)))
 
 (define (mset pairs)
-  (apply make-command `("MSET" ,@pairs)))
+  (apply make-command `("MSET" ,@(cons-list->list pairs))))
 
 (define (msetnx pairs)
-  (apply make-command `("MSETNX" ,@pairs)))
+  (apply make-command `("MSETNX" ,@(cons-list->list pairs))))
 
 (define (psetex key milliseconds value)
-  (make-command "PSETEX" key milliseconds value))
+  (make-command "PSETEX" key (number->string milliseconds) value))
 
+;; TODO: add extra arguments
 (define (set key value)
   (make-command "SET" key value))
 
 (define (setbit key offset value)
-  (make-command "SETBIT" key offset value))
+  (make-command "SETBIT" key (number->string offset) value))
 
 (define (setex key seconds value)
-  (make-command "SETEX" key seconds value))
+  (make-command "SETEX" key (number->string seconds) value))
 
 (define (setnx key value)
   (make-command "SETNX" key value))
 
 (define (setrange key offset value)
-  (make-command "SETRANGE" key offset value))
+  (make-command "SETRANGE" key (number->string offset) value))
 
 (define (strlen key)
   (make-command "STRLEN" key))

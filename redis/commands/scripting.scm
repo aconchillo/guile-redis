@@ -49,6 +49,6 @@
   (make-command "SCRIPT KILL"))
 
 (define (script-load script)
-  (make-command "SCRIPT-LOAD" script))
+  (make-command "SCRIPT LOAD" script))
 
 ;;; (redis commands scripting) ends here

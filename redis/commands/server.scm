@@ -58,16 +58,16 @@
   (make-command "CONFIG SET" parameter value))
 
 (define (config-resetstat)
-  (make-command "CONFIG-RESETSTAT"))
+  (make-command "CONFIG RESETSTAT"))
 
-(define (config-dbsize)
-  (make-command "CONFIG-DBSIZE"))
+(define (dbsize)
+  (make-command "DBSIZE"))
 
 (define (debug-object key)
-  (make-command "DEBUG-OBJECT" key))
+  (make-command "DEBUG OBJECT" key))
 
 (define (debug-segfault)
-  (make-command "DEBUG-SEGFAULT"))
+  (make-command "DEBUG SEGFAULT"))
 
 (define (flushall)
   (make-command "FLUSHALL"))

@@ -65,7 +65,8 @@
             redis-command?
             redis-cmd-name
             redis-cmd-params
-            redis-cmd-reply))
+            redis-cmd-reply
+            cons-list->list))
 
 (define-record-type <redis-command>
   (create-command name params reply)
@@ -76,5 +77,12 @@
 
 (define* (make-command name #:key (proc read-reply) #:rest args)
   (create-command name args proc))
+
+(define (cons-list->list pairs)
+  (cond
+   ((null? pairs) '())
+   (else (cons (car (car pairs))
+               (cons (cdr (car pairs))
+                     (cons-list->list (cdr pairs)))))))
 
 ;;; (redis commands define) ends here

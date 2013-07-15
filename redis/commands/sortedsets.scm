@@ -33,7 +33,7 @@
             zrevrank zscore))
 
 (define (zadd key pairs)
-  (apply make-command `("ZADD" ,key ,@pairs)))
+  (apply make-command `("ZADD" ,key ,@(cons-list->list pairs))))
 
 (define (zcard key)
   (make-command "ZCARD" key))

@@ -60,7 +60,7 @@
   (apply make-command `("HMGET" ,key ,@fields)))
 
 (define (hmset key pairs)
-  (apply make-command `("HMSET" ,key ,@pairs)))
+  (apply make-command `("HMSET" ,key ,@(cons-list->list pairs))))
 
 (define (hset key field value)
   (make-command "HSET" key field value))

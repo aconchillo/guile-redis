@@ -58,4 +58,40 @@ missing anything.
 
 - (*redis-send* commands) : Send the given list of /commands/ to the
   redis /connection/. /commands/ can be a single command or a list of
-  commands.
+  commands. For a list of commands, a list of all the replies is
+  returned/
+
+  - throws a /redis-error/ exception if the redis server returns an
+    error. The exception has the error string as an argument.
+
+  - throws a /redis-invalid/ exception with no argument if server's
+    answer cannot be parsed (hopefully, this is unlikely to happen).
+
+
+** Commands
+
+redis' commands are defined as procedures that return a command
+definition, which internally is stored in a record. The record defines
+the command name, the parameters and the function to read the command
+reply. For example,
+
+    : (append "mykey" "hi!")
+
+is the procedure that creates an APPEND command with parameters "mykey"
+for the key and "hi!" for the value. Commands are sent by /redis-send/,
+so the PING command would be sent like this
+
+    : (redis-send (ping))
+
+Most commands defined by guile-redis take the same number of arguments
+an order as defined in the redis manual. However, there are some
+important differences to take into account:
+
+- Most of the commands' arguments are strings.
+
+- Arguments that are clearly numeric must be given as numbers
+  (e.g. /increment/ in the INCRBY command).
+
+- When multiple arguments of the same kind can be given in a redis
+  command, a single list argument is used instead (e.g. "MGET keys"
+  instead of "MGET key [key ...]").

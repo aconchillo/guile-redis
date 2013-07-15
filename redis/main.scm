@@ -47,7 +47,8 @@ defaults to 6379. Returns a redis connection."
 (define (redis-send connection commands)
   "Send the given list of @var{commands} to the redis
 @var{connection}. @var{commands} can be a single command or a list of
-commands."
+commands. For a list of commands, a list of all the replies is
+returned."
   (send-commands connection commands)
   (receive-commands connection commands))
 

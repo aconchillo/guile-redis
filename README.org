@@ -77,9 +77,9 @@ reply. For example,
 
     : (append "mykey" "hi!")
 
-is the procedure that creates an APPEND command with parameters "mykey"
-for the key and "hi!" for the value. Commands are sent by /redis-send/,
-so the PING command would be sent like this
+is the procedure that creates an /APPEND/ command with parameters
+"mykey" for the key and "hi!" for the value. Commands are sent by
+/redis-send/, so the /PING/ command would be sent like this
 
     : (redis-send (ping))
 
@@ -90,8 +90,45 @@ important differences to take into account:
 - Most of the commands' arguments are strings.
 
 - Arguments that are clearly numeric must be given as numbers
-  (e.g. /increment/ in the INCRBY command).
+  (e.g. /increment/ in the /INCRBY/ command).
 
 - When multiple arguments of the same kind can be given in a redis
-  command, a single list argument is used instead (e.g. "MGET keys"
-  instead of "MGET key [key ...]").
+  command, a single list argument is used instead (e.g. /MGET keys/
+  instead of /MGET key [key ...]/").
+
+- When commands receive multiple key/value pairs as separate arguments,
+  a list of pairs is to be used instead (e.g. /MSET pairs/ instead of
+  /MSET key value [key value]/, where /pairs/ is a list of cons).
+
+
+** Examples
+
+Let's now see a few examples so we get a grasp of how guile-redis works.
+
+- Load the module:
+
+    : > (use-modules (redis))
+
+- Create a connection:
+
+    : > (define conn (redis-connect))
+
+- Send a single /PING/ command:
+
+    : > (redis-send conn (ping))
+    : "PONG"
+
+- Send a couple if /PING/ commands:
+
+    : > (redis-send conn (list (ping) (ping)))
+    : ("PONG" "PONG")
+
+- Set a couple of keys:
+
+    : > (redis-send conn (mset '(("hello" . "world") ("foo" . "bar"))))
+    : "OK"
+
+- Retrieve the keys just set below:
+
+    : > (redis-send conn (mget '("hello" "foo")))
+    : ("world" "bar")

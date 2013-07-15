@@ -2,8 +2,8 @@
 * guile-redis
 
 guile-redis is a Guile module for the [[http://redis.io][redis]] key-value data store. It
-provides most of the commands up to redis 2.6.14. It also supports
-multiple commands and pipelining.
+provides most of the commands up to redis 2.6.14 and supports multiple
+commands and pipelining.
 
 
 * Installation
@@ -11,12 +11,12 @@ multiple commands and pipelining.
 guile-redis is freely available for download under the terms of the GNU
 Lesser General Public License version 3 (LGPLv3).
 
-There is no release available yet but you can clone the source
-code and start playing with it.
+Download the latest tarball and untar it:
 
-Once you get the source code:
+- [[http://hacks-galore.org/aleix/guile-redis/guile-redis-0.1.0.tar.gz][guile-redis-0.1.0.tar.gz]]
 
-    : $ autoreconf -vif
+Then, run the typical sequence:
+
     : $ ./configure --prefix=<guile-prefix>
     : $ make
     : $ sudo make install
@@ -35,6 +35,7 @@ your system's Guile. If so, you need to indicate Guile where to find
 guile-redis, for example:
 
     : $ GUILE_LOAD_PATH=/usr/local/share/guile/site guile
+
 
 * Usage
 
@@ -59,7 +60,7 @@ missing anything.
 - (*redis-send* commands) : Send the given list of /commands/ to the
   redis /connection/. /commands/ can be a single command or a list of
   commands. For a list of commands, a list of all the replies is
-  returned/
+  returned.
 
   - throws a /redis-error/ exception if the redis server returns an
     error. The exception has the error string as an argument.
@@ -79,7 +80,7 @@ reply. For example,
 
 is the procedure that creates an /APPEND/ command with parameters
 "mykey" for the key and "hi!" for the value. Commands are sent by
-/redis-send/, so the /PING/ command would be sent like this
+/redis-send/, so the /PING/ command would be sent like this:
 
     : (redis-send (ping))
 
@@ -118,7 +119,7 @@ Let's now see a few examples so we get a grasp of how guile-redis works.
     : > (redis-send conn (ping))
     : "PONG"
 
-- Send a couple if /PING/ commands:
+- Send a couple of /PING/ commands:
 
     : > (redis-send conn (list (ping) (ping)))
     : ("PONG" "PONG")
@@ -132,3 +133,7 @@ Let's now see a few examples so we get a grasp of how guile-redis works.
 
     : > (redis-send conn (mget '("hello" "foo")))
     : ("world" "bar")
+
+- Finally, close the connection:
+
+    : > (redis-close conn)

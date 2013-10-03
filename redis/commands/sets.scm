@@ -33,22 +33,22 @@
             sunion sunionstore))
 
 (define (sadd key members)
-  (apply make-command `("SADD" ,key ,@members)))
+  (apply make-command "SADD" key members))
 
 (define (scard key)
   (make-command "SCARD" key))
 
 (define (sdiff keys)
-  (apply make-command `("SDIFF" ,@keys)))
+  (apply make-command "SDIFF" keys))
 
 (define (sdiffstore destination keys)
-  (apply make-command `("SDIFFSTORE" ,destination ,@keys)))
+  (apply make-command "SDIFFSTORE" destination keys))
 
 (define (sinter keys)
-  (apply make-command `("SINTER" ,@keys)))
+  (apply make-command "SINTER" keys))
 
 (define (sinterstore destination keys)
-  (apply make-command `("SINTERSTORE" ,destination ,@keys)))
+  (apply make-command "SINTERSTORE" destination keys))
 
 (define (sismember key member)
   (make-command "SISMEMBER" key member))
@@ -68,12 +68,12 @@
       (make-command "SRANDMEMBER" key)))
 
 (define (srem key members)
-  (apply make-command `("SREM" ,key ,@members)))
+  (apply make-command "SREM" key members))
 
 (define (sunion keys)
-  (apply make-command `("SUNION" ,@keys)))
+  (apply make-command "SUNION" keys))
 
 (define (sunionstore destination keys)
-  (apply make-command `("SUNIONSTORE" ,destination ,@keys)))
+  (apply make-command "SUNIONSTORE" destination keys))
 
 ;;; (redis commands sets) ends here

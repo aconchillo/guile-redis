@@ -33,7 +33,7 @@
             hvals))
 
 (define (hdel key fields)
-  (apply make-command `("HDEL" ,key ,@fields)))
+  (apply make-command "HDEL" key fields))
 
 (define (hexists key field)
   (make-command "HEXISTS" key field))
@@ -57,10 +57,10 @@
   (make-command "HLEN" key))
 
 (define (hmget key fields)
-  (apply make-command `("HMGET" ,key ,@fields)))
+  (apply make-command "HMGET" key fields))
 
 (define (hmset key pairs)
-  (apply make-command `("HMSET" ,key ,@(cons-list->list pairs))))
+  (apply make-command "HMSET" key (cons-list->list pairs)))
 
 (define (hset key field value)
   (make-command "HSET" key field value))

@@ -33,7 +33,7 @@
             renamenx restore ttl type))
 
 (define (del keys)
-  (apply make-command `("DEL" ,@keys)))
+  (apply make-command "DEL" keys))
 
 (define (dump key)
   (make-command "DUMP" key))
@@ -61,11 +61,11 @@
 (define* (object subcommand #:rest arguments)
   (case subcommand
     ((REFCOUNT)
-     (apply make-command `("OBJECT" "REFCOUNT" ,@arguments)))
+     (apply make-command "OBJECT" "REFCOUNT" arguments))
     ((ENCODING)
-     (apply make-command `("OBJECT" "ENCODING" ,@arguments)))
+     (apply make-command "OBJECT" "ENCODING" arguments))
     ((IDLETIME)
-     (apply make-command `("OBJECT" "IDLETIME" ,@arguments)))
+     (apply make-command "OBJECT" "IDLETIME" arguments))
     (else (throw 'redis-error "Invalid OBJECT subcommand"))))
 
 (define (persist key)

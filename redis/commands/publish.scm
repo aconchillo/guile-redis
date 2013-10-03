@@ -32,32 +32,32 @@
             subscribe unsubscribe))
 
 (define (psubscribe patterns)
-  (apply make-command `("PSUBSCRIBE" ,@patterns)))
+  (apply make-command "PSUBSCRIBE" patterns))
 
 (define* (pubsub subcommand #:optional arguments)
   (case subcommand
     ((CHANNELS)
       (if arguments
-         (apply make-command `("PUBSUB" "CHANNELS" ,arguments))
-         (apply make-command `("PUBSUB" "CHANNELS"))))
+         (apply make-command "PUBSUB" "CHANNELS" arguments)
+         (apply make-command "PUBSUB" "CHANNELS")))
     ((NUMSUB)
       (if arguments
-         (apply make-command `("PUBSUB" "NUMSUB" ,@arguments))
-         (apply make-command `("PUBSUB" "NUMSUB"))))
+         (apply make-command "PUBSUB" "NUMSUB" arguments)
+         (apply make-command "PUBSUB" "NUMSUB")))
     ((NUMPAT)
-      (apply make-command `("PUBSUB" "NUMPAT")))
+      (apply make-command "PUBSUB" "NUMPAT"))
     (else (throw 'redis-error "Invalid PUBSUB command"))))
 
 (define (publish channel message)
   (make-command "PUBLISH" channel message))
 
 (define (punsubcribe patterns)
-  (apply make-command `("PUNSUBCRIBE" ,@patterns)))
+  (apply make-command "PUNSUBCRIBE" patterns))
 
 (define (subscribe channels)
-  (apply make-command `("SUBSCRIBE" ,@channels)))
+  (apply make-command "SUBSCRIBE" channels))
 
 (define (unsubscribe channels)
-  (apply make-command `("UNSUBSCRIBE" ,@channels)))
+  (apply make-command "UNSUBSCRIBE" channels))
 
 ;;; (redis commands publish) ends here

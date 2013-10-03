@@ -33,10 +33,10 @@
             rpush rpushx))
 
 (define (blpop keys timeout)
-  (apply make-command `("BLPOP" ,@keys ,(number->string timeout))))
+  (apply make-command "BLPOP" keys (number->string timeout)))
 
 (define (brpop keys timeout)
-  (apply make-command `("BRPOP" ,@keys ,(number->string timeout))))
+  (apply make-command "BRPOP" keys (number->string timeout)))
 
 (define (brpoplpush source destination timeout)
   (make-command "BRPOPLPUSH" source destination (number->string timeout)))
@@ -57,7 +57,7 @@
   (make-command "LPOP" key))
 
 (define (lpush key values)
-  (apply make-command `("LPUSH" ,key ,@values)))
+  (apply make-command "LPUSH" key values))
 
 (define (lpushx key value)
   (make-command "LPUSHX" key value))

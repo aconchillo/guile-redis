@@ -42,6 +42,6 @@
   (make-command "UNWATCH"))
 
 (define (watch keys)
-  (apply make-command `("WATCH" ,@keys)))
+  (apply make-command "WATCH" keys))
 
 ;;; (redis commands transactions) ends here

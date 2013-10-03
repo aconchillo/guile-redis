@@ -32,15 +32,13 @@
             script-kill script-load))
 
 (define (eval script numkeys keys args)
-  (apply make-command `("EVAL" ,script
-                        (number->string numkeys) ,@keys ,@args)))
+  (apply make-command "EVAL" script (number->string numkeys) keys args))
 
 (define (evalsha sha1 numkeys keys args)
-  (apply make-command `("EVALSHA" ,sha1
-                        (number->string numkeys) ,@keys ,@args)))
+  (apply make-command "EVALSHA" sha1 (number->string numkeys) keys args))
 
 (define (script-exists scripts)
-  (apply make-command `("SCRIPT EXISTS" ,@scripts)))
+  (apply make-command "SCRIPT EXISTS" scripts))
 
 (define (script-flush)
   (make-command "SCRIPT FLUSH"))

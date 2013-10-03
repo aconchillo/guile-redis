@@ -39,7 +39,7 @@
   (make-command "BITCOUNT" key (number->string start) (number->string end)))
 
 (define (bitop operation destkey keys)
-  (apply make-command `("BITOP" ,operation ,destkey ,@keys)))
+  (apply make-command "BITOP" operation destkey keys))
 
 (define (decr key)
   (make-command "DECR" key))
@@ -69,13 +69,13 @@
   (make-command "INCRBYFLOAT" key (number->string increment)))
 
 (define (mget keys)
-  (apply make-command `("MGET" ,@keys)))
+  (apply make-command "MGET" keys))
 
 (define (mset pairs)
-  (apply make-command `("MSET" ,@(cons-list->list pairs))))
+  (apply make-command "MSET" (cons-list->list pairs)))
 
 (define (msetnx pairs)
-  (apply make-command `("MSETNX" ,@(cons-list->list pairs))))
+  (apply make-command "MSETNX" (cons-list->list pairs)))
 
 (define (psetex key milliseconds value)
   (make-command "PSETEX" key (number->string milliseconds) value))

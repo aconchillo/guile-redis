@@ -40,21 +40,15 @@
 ;;         (insert "(define (" command))
 ;;     (if (> (length args) 0) (insert " " args))
 ;;     (if (> (length opt-args) 0) (insert " #:optional " opt-args))
-;;     (if (> (length rest-args) 0) (insert " " rest-args))    (insert ")\n")
-;;     (cond
-;;      ((> (length rest-args) 0)
-;;       (insert "  (apply make-command `(")
-;;       (insert "\"" (upcase command) "\"")
-;;       (if (> (length args) 0) (insert " ," args))
-;;       (if (> (length opt-args) 0) (insert " ," opt-args))
-;;       (insert " ,@" rest-args)
-;;       (insert ")"))
-;;      (t
-;;       (insert "  (make-command \"" (upcase command) "\"")
-;;       (if (> (length args) 0) (insert " " args))
-;;       (if (> (length opt-args) 0) (insert " " opt-args))
-;;       (if (> (length rest-args) 0) (insert " " rest-args))))
-;;     (insert "))\n")))
+;;     (if (> (length rest-args) 0) (insert " #:rest " rest-args))
+;;     (insert ")\n")
+;;     (insert "  (")
+;;     (if (> (length rest-args) 0) (insert "apply "))
+;;     (insert "make-command \"" (upcase command) "\"")
+;;     (if (> (length args) 0) (insert " " args))
+;;     (if (> (length opt-args) 0) (insert " " opt-args))
+;;     (if (> (length rest-args) 0) (insert " " rest-args))
+;;     (insert ")\n")))
 
 ;;; Code:
 

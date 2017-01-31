@@ -32,8 +32,8 @@
             hmget hmset hset hsetnx
             hstrlen hvals hscan))
 
-(define (hdel key fields)
-  (apply make-command "HDEL" key fields))
+(define* (hdel key field #:rest fields)
+  (apply make-command "HDEL" key field fields))
 
 (define (hexists key field)
   (make-command "HEXISTS" key field))

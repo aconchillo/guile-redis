@@ -37,8 +37,10 @@
 (define (echo message)
   (make-command "ECHO" message))
 
-(define (ping)
-  (make-command "PING"))
+(define* (ping #:optional (message #f))
+  (if message
+      (make-command "PING" message)
+      (make-command "PING")))
 
 (define (quit)
   (make-command

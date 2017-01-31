@@ -1,6 +1,6 @@
 ;;; (redis commands define) --- redis module for Guile.
 
-;; Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2017 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -48,7 +48,7 @@
 ;;     (if (> (length args) 0) (insert " " args))
 ;;     (if (> (length opt-args) 0) (insert " " opt-args))
 ;;     (if (> (length rest-args) 0) (insert " " rest-args))
-;;     (insert ")\n")))
+;;     (insert "))\n")))
 
 ;;; Code:
 

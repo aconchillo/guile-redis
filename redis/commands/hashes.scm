@@ -1,6 +1,6 @@
 ;;; (redis commands hashes) --- redis module for Guile.
 
-;; Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2017 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -30,7 +30,7 @@
   #:export (hdel hexists hget hgetall
             hincrby hincrbyfloat hkeys hlen
             hmget hmset hset hsetnx
-            hvals))
+            hstrlen hvals hscan))
 
 (define (hdel key fields)
   (apply make-command "HDEL" key fields))
@@ -68,7 +68,16 @@
 (define (hsetnx key field value)
   (make-command "HSETNX" key field value))
 
+(define (hstrlen key field)
+  (make-command "HSTRLEN" key field))
+
 (define (hvals key)
   (make-command "HVALS" key))
+
+(define* (hscan key cursor #:key (match #f) (count #f))
+  (let* ((args (list key cursor))
+         (args (append args (if match `("MATCH" ,match) '())))
+         (args (append args (if count `("COUNT" ,count) '()))))
+    (apply make-command "HSCAN" args)))
 
 ;;; (redis commands hashes) ends here

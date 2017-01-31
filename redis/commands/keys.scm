@@ -1,6 +1,6 @@
 ;;; (redis commands keys) --- redis module for Guile.
 
-;; Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2017 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -38,8 +38,8 @@
 (define (dump key)
   (make-command "DUMP" key))
 
-(define (exists key)
-  (make-command "EXISTS" key))
+(define* (exists key #:rest keys)
+  (apply make-command "EXISTS" key keys))
 
 (define (expire key seconds)
   (make-command "EXPIRE" key (number->string seconds)))
@@ -99,5 +99,17 @@
 
 (define (type key)
   (make-command "TYPE" key))
+
+(define* (unlink key #:rest keys)
+  (apply make-command "UNLINK" key keys))
+
+(define (wait numslaves timeout)
+  (make-command "WAIT" numslaves timeout))
+
+(define* (scan cursor #:key (match #f) (count #f))
+  (let* ((args (list cursor))
+         (args (append args (if match `("MATCH" ,match) '())))
+         (args (append args (if count `("COUNT" ,count) '()))))
+    (apply make-command "SCAN" args)))
 
 ;;; (redis commands keys) ends here

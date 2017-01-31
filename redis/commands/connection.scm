@@ -1,6 +1,6 @@
 ;;; (redis commands connection) --- redis module for Guile.
 
-;; Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2017 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -52,5 +52,8 @@
 
 (define (select index)
   (make-command "SELECT" index))
+
+(define (swapdb index1 index2)
+  (make-command "SWAPDB" index1 index2))
 
 ;;; (redis commands connection) ends here

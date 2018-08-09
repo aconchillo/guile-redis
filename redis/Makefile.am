@@ -21,11 +21,9 @@
 # 02110-1301 USA
 #
 
-SUBDIRS = commands
-
 moddir=$(prefix)/share/guile/site/redis
 
-SOURCES = connection.scm main.scm utils.scm
+SOURCES = commands.scm connection.scm main.scm utils.scm
 
 GOBJECTS = $(SOURCES:%.scm=%.go)
 

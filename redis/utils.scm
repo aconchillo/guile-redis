@@ -1,6 +1,6 @@
 ;;; (redis utils) --- redis module for Guile.
 
-;; Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -27,7 +27,7 @@
 
 (define-module (redis utils)
   #:use-module (redis connection)
-  #:use-module (redis commands define)
+  #:use-module (redis commands)
   #:use-module (ice-9 rdelim)
   #:use-module (rnrs bytevectors)
   #:use-module (srfi srfi-9)

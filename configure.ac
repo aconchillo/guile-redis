@@ -30,8 +30,7 @@ AM_SILENT_RULES([yes])
 GUILE_PROGS
 
 AC_CONFIG_FILES([Makefile
-                 redis/Makefile
-                 redis/commands/Makefile])
+                 redis/Makefile])
 
 AC_CONFIG_FILES([env], [chmod +x env])
 

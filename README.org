@@ -72,8 +72,8 @@ commands to the server.
 ** Redis commands
 
 All commands in guile-redis are defined with lower-case and hyphenated in the
-case of commands that have two or more words. For example, the command "CLIENT
-LIST" is defined as `client-list`.
+case of commands that have two or more words. For example, the command "/CLIENT
+LIST/" is defined as /client-list/.
 
 The commands take exaclty the same arguments as defined in the redis manual and
 all the arguments are given as strings. For example:

@@ -1,19 +1,20 @@
 
 * guile-redis
 
-guile-redis is a Guile module for the [[http://redis.io][redis]] key-value data store. It
-provides most of the commands up to redis 2.6.14 and supports multiple
-commands and pipelining.
+guile-redis is a Guile module for the [[http://redis.io][redis]] key-value data
+store. It provides all commands up to redis 5.0 and supports multiple commands
+and pipelining.
 
 
 * Installation
 
-guile-redis is freely available for download under the terms of the GNU
-Lesser General Public License version 3 (LGPLv3+).
+guile-redis is freely available for download under the terms of the GNU General
+Public License version 3 (GPLv3) as well as the GNU Lesser General Public
+License version 3 (LGPLv3).
 
 Download the latest tarball and untar it:
 
-- [[http://download.savannah.gnu.org/releases/guile-redis/guile-redis-0.1.0.tar.gz][guile-redis-0.1.0.tar.gz]]
+- [[http://download.savannah.gnu.org/releases/guile-redis/guile-redis-1.0.0.tar.gz][guile-redis-1.0.0.tar.gz]]
 
 If you are cloning the repository make sure you run this first:
 
@@ -34,9 +35,9 @@ If everything installed successfully you should be up and running:
     : scheme@(guile-user)> (use-modules (redis))
     : scheme@(guile-user)>
 
-It might be that you installed guile-redis somewhere differently than
-your system's Guile. If so, you need to indicate Guile where to find
-guile-redis, for example:
+It might be that you installed guile-redis somewhere differently than your
+system's Guile. If so, you need to indicate Guile where to find guile-redis, for
+example:
 
     : $ GUILE_LOAD_PATH=/usr/local/share/guile/site guile
 
@@ -45,70 +46,42 @@ guile-redis, for example:
 
 ** Procedures
 
-The main interface to the redis server is really simply. It consists on
-three procedures, the most important one being /redis-send/ which
-basically sends commands to the server. There are other procedures to
-create new commands and parse replies that you can also use if you are
-missing anything.
+The main interface to the redis server is really simply. It consists on three
+procedures, the most important one being /redis-send/ which basically sends
+commands to the server.
 
-- (*redis-connect* #:key host port) : Establish a connection to the
-  redis server at the given /host/ and /port/ and return a redis
-  connection.
+- (*redis-connect* #:key host port) : Establish a connection to the redis server
+  at the given /host/ and /port/ and return a redis connection.
 
   - /host/ : it defaults to 127.0.0.1.
   - /port/ : it defaults to 6379.
 
-- (*redis-close* connection) : Close the /connection/ to the redis
-  server.
+- (*redis-close* connection) : Close the /connection/ to the redis server.
 
-- (*redis-send* commands) : Send the given list of /commands/ to the
+- (*redis-send* connection commands) : Send the given list of /commands/ to the
   redis /connection/. /commands/ can be a single command or a list of
-  commands. For a list of commands, a list of all the replies is
-  returned.
+  commands. For a list of commands, a list of all the replies is returned.
 
-  - throws a /redis-error/ exception if the redis server returns an
-    error. The exception has the error string as an argument.
+  - throws a /redis-error/ exception if the redis server returns an error. The
+    exception has the error string as an argument.
 
-  - throws a /redis-invalid/ exception with no argument if server's
-    answer cannot be parsed (hopefully, this is unlikely to happen).
+  - throws a /redis-invalid/ exception with no argument if server's answer
+    cannot be parsed (hopefully, this is unlikely to happen).
 
 
-** Commands
+** Redis commands
 
-redis' commands are defined as procedures that return a command
-definition, which internally is stored in a record. The record defines
-the command name, the parameters and the function to read the command
-reply. For example,
+All commands in guile-redis are defined with lower-case and hyphenated in the
+case of commands that have two or more words. For example, the command "CLIENT
+LIST" is defined as `client-list`.
 
-    : (append "mykey" "hi!")
+The commands take exaclty the same arguments as defined in the redis manual and
+all the arguments are given as strings. For example:
 
-is the procedure that creates an /APPEND/ command with parameters
-"mykey" for the key and "hi!" for the value. Commands are sent by
-/redis-send/, so the /PING/ command would be sent like this:
-
-    : (redis-send (ping))
-
-Most commands defined by guile-redis take the same number of arguments
-an order as defined in the redis manual. However, there are some
-important differences to take into account:
-
-- Most of the commands' arguments are strings.
-
-- Arguments that are clearly numeric must be given as numbers
-  (e.g. /increment/ in the /INCRBY/ command).
-
-- When multiple arguments of the same kind can be given in a redis
-  command, a single list argument is used instead (e.g. /MGET keys/
-  instead of /MGET key [key ...]/").
-
-- When commands receive multiple key/value pairs as separate arguments,
-  a list of pairs is to be used instead (e.g. /MSET pairs/ instead of
-  /MSET key value [key value]/, where /pairs/ is a list of cons).
+    : (bitfield "mykey" "INCRBY" "i5" "100" "1" "GET" "u4" "0")
 
 
 ** Examples
-
-Let's now see a few examples so we get a grasp of how guile-redis works.
 
 - Load the module:
 
@@ -125,17 +98,17 @@ Let's now see a few examples so we get a grasp of how guile-redis works.
 
 - Send a couple of /PING/ commands:
 
-    : > (redis-send conn (list (ping) (ping)))
-    : ("PONG" "PONG")
+    : > (redis-send conn (list (ping) (ping "hello from guile-redis")))
+    : ("PONG" "hello from guile-redis")
 
 - Set a couple of keys:
 
-    : > (redis-send conn (mset '(("hello" . "world") ("foo" . "bar"))))
+    : > (redis-send conn (mset "hello" "world" "foo" "bar"))
     : "OK"
 
 - Retrieve the keys just set below:
 
-    : > (redis-send conn (mget '("hello" "foo")))
+    : > (redis-send conn (mget "hello" "foo"))
     : ("world" "bar")
 
 - Finally, close the connection:

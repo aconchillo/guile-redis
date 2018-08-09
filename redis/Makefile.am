@@ -1,7 +1,7 @@
 #
 # Makefile.am
 #
-# Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
+# Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
 #
 # This file is part of guile-redis.
 #
@@ -21,13 +21,16 @@
 # 02110-1301 USA
 #
 
-moddir=$(prefix)/share/guile/site/redis
+moddir = $(datadir)/guile/site/@GUILE_EFFECTIVE_VERSION@/redis
+objdir = $(libdir)/guile/@GUILE_EFFECTIVE_VERSION@/site-ccache/redis
 
 SOURCES = commands.scm connection.scm main.scm utils.scm
 
 GOBJECTS = $(SOURCES:%.scm=%.go)
 
-nobase_mod_DATA = $(SOURCES) $(NOCOMP_SOURCES) $(GOBJECTS)
+nobase_mod_DATA = $(SOURCES) $(NOCOMP_SOURCES)
+nobase_nodist_obj_DATA = $(GOBJECTS)
+
 EXTRA_DIST = $(SOURCES) $(NOCOMP_SOURCES)
 
 CLEANFILES = $(GOBJECTS)

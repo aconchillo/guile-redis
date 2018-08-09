@@ -1,7 +1,7 @@
 #
 # Makefile.am
 #
-# Copyright (C) 2013 Aleix Conchillo Flaque <aconchillo@gmail.com>
+# Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
 #
 # This file is part of guile-redis.
 #
@@ -28,13 +28,15 @@ ACLOCAL_AMFLAGS = -I build-aux
 dist-hook:
 	$(SHELL) $(top_srcdir)/ChangeLog > $(top_distdir)/ChangeLog
 
-moddir=$(prefix)/share/guile/site
+moddir = $(datadir)/guile/site/@GUILE_EFFECTIVE_VERSION@
+objdir = $(libdir)/guile/@GUILE_EFFECTIVE_VERSION@/site-ccache
 
 SOURCES = redis.scm
-
 GOBJECTS = $(SOURCES:%.scm=%.go)
 
-nobase_mod_DATA = $(SOURCES) $(NOCOMP_SOURCES) $(GOBJECTS)
+nobase_mod_DATA = $(SOURCES) $(NOCOMP_SOURCES)
+nobase_nodist_obj_DATA = $(GOBJECTS)
+
 EXTRA_DIST = $(SOURCES) $(NOCOMP_SOURCES)
 
 CLEANFILES = $(GOBJECTS)

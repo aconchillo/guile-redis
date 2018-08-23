@@ -1,9 +1,9 @@
 
 * guile-redis
 
-guile-redis is a Guile module for the [[http://redis.io][redis]] key-value data store. It
-provides all commands up to redis 5.0 and supports multiple commands
-and pipelining.
+guile-redis is a Guile module for the [[http://redis.io][Redis]]
+key-value data store. It provides all commands up to Redis 5.0 and
+supports multiple commands and pipelining.
 
 
 * Installation

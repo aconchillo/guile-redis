@@ -69,7 +69,14 @@
       (else (throw 'redis-invalid conn)))))
 
 (define (command->list cmd)
-  (cons (redis-cmd-name cmd) (redis-cmd-params cmd)))
+  (cons (redis-cmd-name cmd)
+        (map (lambda (v)
+               (cond
+                ((string? v) v)
+                ((symbol? v) (symbol->string v))
+                ((number? v) (number->string v))
+                (else (throw 'redis-invalid))))
+             (redis-cmd-args cmd))))
 
 (define (command->string cmd)
   (let ((l (command->list cmd)))

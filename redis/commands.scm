@@ -28,14 +28,14 @@
   #:use-module (srfi srfi-9)
   #:export (redis-command?
             redis-cmd-name
-            redis-cmd-params
+            redis-cmd-args
             redis-cmd-reply))
 
 (define-record-type <redis-command>
-  (create-command name params reply)
+  (create-command name args reply)
   redis-command?
   (name redis-cmd-name)
-  (params redis-cmd-params)
+  (args redis-cmd-args)
   (reply redis-cmd-reply))
 
 (define* (make-command name #:rest args)
@@ -52,8 +52,8 @@
                        (let* ((cmd-name (string-join `(,name ,@subnames) " "))
                               (func-name (string->symbol (string-join `(,name ,@subnames) "-"))))
                          `(begin
-                            (define* (,func-name #:rest params)
-                              (apply make-command ,(string-upcase cmd-name) params))
+                            (define* (,func-name #:optional args)
+                              (apply make-command ,(string-upcase cmd-name) (if args args #nil)))
                             (module-export! (current-module) '(,func-name)))))
                      args))
             `((,(symbol->string (syntax->datum #'cmd)) ...) ...)))

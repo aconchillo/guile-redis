@@ -69,8 +69,8 @@ basically sends commands to the server.
   - /redis-error/ : if the redis server returns an error. The
     exception has the error string as an argument.
 
-  - /redis-invalid/ : if server's answer cannot be parsed (hopefully,
-    this is unlikely to happen).
+  - /redis-invalid/ : if the user arguments or server's answer cannot be
+    parsed (hopefully, this is unlikely to happen).
 
 
 ** Redis commands
@@ -79,11 +79,14 @@ All commands in guile-redis are defined with lower-case and hyphenated
 in the case of commands that have two or more words. For example, the
 command "/CLIENT LIST/" is defined as /client-list/.
 
-The commands take exaclty the same arguments as defined in the redis
-manual and all the arguments are given as strings. For example:
+The commands take exaclty the same arguments as defined in the redis manual
+and all the arguments (if any) need to be passed as a single list. For
+example:
 
-    : (bitfield "mykey" "INCRBY" "i5" "100" "1" "GET" "u4" "0")
+    : (bitfield `(mykey INCRBY i5 100 1 GET u4 0))
 
+Note that, internally, guile-redis will automatically convert symbols and
+numbers to strings before sending the command to Redis.
 
 ** Examples
 
@@ -102,17 +105,17 @@ manual and all the arguments are given as strings. For example:
 
 - Send a couple of /PING/ commands:
 
-    : > (redis-send conn (list (ping) (ping "hello from guile-redis")))
+    : > (redis-send conn (list (ping) (ping `("hello from guile-redis"))))
     : ("PONG" "hello from guile-redis")
 
 - Set a couple of keys:
 
-    : > (redis-send conn (mset "hello" "world" "foo" "bar"))
+    : > (redis-send conn (mset `(hello "world" foo "bar")))
     : "OK"
 
 - Retrieve the keys just set below:
 
-    : > (redis-send conn (mget "hello" "foo"))
+    : > (redis-send conn (mget `(hello foo)))
     : ("world" "bar")
 
 - Finally, close the connection:
@@ -123,6 +126,8 @@ manual and all the arguments are given as strings. For example:
 * License
 
 Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
+
+This file is part of guile-redis.
 
 guile-redis is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the

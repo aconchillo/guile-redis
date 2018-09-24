@@ -42,22 +42,22 @@ guile-redis, for example:
 
 ** Procedures
 
-The main interface to the redis server is really simply. It consists
+The main interface to the Redis server is really simply. It consists
 on three procedures, the most important one being /redis-send/ which
 basically sends commands to the server.
 
 - (*redis-connect* #:key host port) : Establish a connection to the
-  redis server at the given /host/ and /port/ and return a redis
+  redis server at the given /host/ and /port/ and return a Redis
   connection.
 
   - /host/ : it defaults to 127.0.0.1.
   - /port/ : it defaults to 6379.
 
-- (*redis-close* connection) : Close the /connection/ to the redis
+- (*redis-close* connection) : Close the /connection/ to the Redis
   server.
 
 - (*redis-send* connection commands) : Send the given list of
-  /commands/ to the redis /connection/. /commands/ can be a single
+  /commands/ to the Redis /connection/. /commands/ can be a single
   command or a list of commands. For a list of commands, a list of all
   the replies is returned.
 
@@ -66,7 +66,7 @@ basically sends commands to the server.
 
   *Throws*
 
-  - /redis-error/ : if the redis server returns an error. The
+  - /redis-error/ : if the Redis server returns an error. The
     exception has the error string as an argument.
 
   - /redis-invalid/ : if the user arguments or server's answer cannot be
@@ -79,7 +79,7 @@ All commands in guile-redis are defined with lower-case and hyphenated
 in the case of commands that have two or more words. For example, the
 command "/CLIENT LIST/" is defined as /client-list/.
 
-The commands take exaclty the same arguments as defined in the redis manual
+The commands take exaclty the same arguments as defined in the Redis manual
 and all the arguments (if any) need to be passed as a single list. For
 example:
 

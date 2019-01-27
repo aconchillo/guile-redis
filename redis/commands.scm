@@ -259,8 +259,10 @@
  (xrevrange)
  (xlen)
  (xread)
+ (xgroup)
  (xreadgroup)
  (xpending)
+ (xack)
  ;; Strings
  (append)
  (bitcount)

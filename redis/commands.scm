@@ -1,6 +1,6 @@
 ;;; (redis commands) --- redis module for Guile.
 
-;; Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2019 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -78,6 +78,7 @@
  (cluster set-config-epoch)
  (cluster setslot)
  (cluster slaves)
+ (cluster replicas)
  (cluster slots)
  (readonly)
  (readwrite)
@@ -176,12 +177,14 @@
  ;; Server
  (bgrewriteaof)
  (bgsave)
+ (client id)
  (client kill)
  (client list)
  (client getname)
  (client pause)
  (client reply)
  (client setname)
+ (client unblock)
  (command)
  (command count)
  (command getkeys)
@@ -208,6 +211,7 @@
  (save)
  (shutdown)
  (slaveof)
+ (replicaof)
  (slowlog)
  (sync)
  (time)
@@ -254,15 +258,19 @@
  (zunionstore)
  (zscan)
  ;; Streams
+ (xinfo)
  (xadd)
+ (xtrim)
+ (xdel)
  (xrange)
  (xrevrange)
  (xlen)
  (xread)
  (xgroup)
  (xreadgroup)
- (xpending)
  (xack)
+ (xclaim)
+ (xpending)
  ;; Strings
  (append)
  (bitcount)

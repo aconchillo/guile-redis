@@ -113,7 +113,7 @@ numbers to strings before sending the command to Redis.
     : > (redis-send conn (mset '(hello "world" foo "bar")))
     : "OK"
 
-- Retrieve the keys just set below:
+- Retrieve the keys just set above:
 
     : > (redis-send conn (mget '(hello foo)))
     : ("world" "bar")

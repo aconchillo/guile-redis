@@ -262,6 +262,7 @@
  (xgroup)
  (xreadgroup)
  (xpending)
+ (xack)
  ;; Strings
  (append)
  (bitcount)

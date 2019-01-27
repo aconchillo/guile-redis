@@ -1,7 +1,7 @@
 #
 # Makefile.am
 #
-# Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
+# Copyright (C) 2013-2019 Aleix Conchillo Flaque <aconchillo@gmail.com>
 #
 # This file is part of guile-redis.
 #
@@ -19,8 +19,8 @@
 # along with guile-redis. If not, see https://www.gnu.org/licenses/.
 #
 
-moddir = $(datadir)/guile/site/@GUILE_EFFECTIVE_VERSION@/redis
-objdir = $(libdir)/guile/@GUILE_EFFECTIVE_VERSION@/site-ccache/redis
+moddir=$(datadir)/guile/site/$(GUILE_EFFECTIVE_VERSION)/redis
+objdir=$(libdir)/guile/$(GUILE_EFFECTIVE_VERSION)/site-ccache/redis
 
 SOURCES = commands.scm connection.scm main.scm utils.scm
 
@@ -36,4 +36,4 @@ CLEANFILES = $(GOBJECTS)
 GUILE_WARNINGS = -Wunbound-variable -Warity-mismatch -Wformat
 SUFFIXES = .scm .go
 .scm.go:
-	$(top_builddir)/env $(GUILE_TOOLS) compile $(GUILE_WARNINGS) -o "$@" "$<"
+	$(top_builddir)/env $(GUILD) compile $(GUILE_WARNINGS) -o "$@" "$<"

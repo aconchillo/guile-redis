@@ -259,6 +259,7 @@
  (xrevrange)
  (xlen)
  (xread)
+ (xgroup)
  (xreadgroup)
  (xpending)
  ;; Strings

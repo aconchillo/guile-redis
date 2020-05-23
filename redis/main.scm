@@ -40,7 +40,7 @@ defaults to 6379. Returns a redis connection."
 
 (define (redis-close connection)
   "Close the @var{connection} to the redis server."
-  (shutdown (redis-socket connection) 2))
+  (close-port (redis-socket connection)))
 
 (define (redis-send connection commands)
   "Send the given list of @var{commands} to the redis

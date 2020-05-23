@@ -1,9 +1,16 @@
 
+* Version 1.4.0 (??, 2020)
+
+  - Fix leak on redis-close.
+    (Fixes #4)
+
+
 * Version 1.3.0 (Jan 26, 2019)
 
   - Added more redis 5.0.0 commands: (cluster replicas), (client id), (client
     unblock), (replicaof), (xack), (xgroup), (xinfo), (xtrim), (xdel),
     (xclaim).
+
 
 * Version 1.2.0 (Sep 24, 2018)
 

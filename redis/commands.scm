@@ -26,20 +26,21 @@
 (define-module (redis commands)
   #:use-module (redis utils)
   #:use-module (srfi srfi-9)
-  #:export (redis-command?
+  #:export (create-command
+            redis-command?
             redis-cmd-name
             redis-cmd-args
             redis-cmd-reply))
 
 (define-record-type <redis-command>
-  (create-command name args reply)
+  (make-command name args reply)
   redis-command?
   (name redis-cmd-name)
   (args redis-cmd-args)
   (reply redis-cmd-reply))
 
-(define* (make-command name #:rest args)
-  (create-command name args read-reply))
+(define* (create-command name #:rest args)
+  (make-command name args read-reply))
 
 (define-syntax create-commands
   (syntax-rules ()
@@ -53,7 +54,7 @@
                               (func-name (string->symbol (string-join `(,name ,@subnames) "-"))))
                          `(begin
                             (define* (,func-name #:optional args)
-                              (apply make-command ,(string-upcase cmd-name) (if args args #nil)))
+                              (apply create-command ,(string-upcase cmd-name) (if args args #nil)))
                             (module-export! (current-module) '(,func-name)))))
                      args))
             `((,(symbol->string (syntax->datum #'cmd)) ...) ...)))

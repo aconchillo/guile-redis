@@ -85,10 +85,10 @@ numbers to strings before sending the command to Redis.
 
 ## Redis Pub/Sub
 
-guile-redis >= 2.0.0 adds proper support for
-[[https://redis.io/topics/pubsub][Redis Pub/Sub]]. The Pub/Sub commands don't
-follow the approach of the rest of commands (except the *PUBSUB* command),
-instead there's a procedure for each of them:
+guile-redis >= 2.0.0 adds proper support for [Redis
+Pub/Sub](https://redis.io/topics/pubsub). The Pub/Sub commands don't follow
+the approach of the rest of commands (except the *PUBSUB* command), instead
+there's a procedure for each of them:
 
 - (**redis-publish** connection channel message) : Publish the given *message*
   to *channel* using the provided Redis client *connection*. All subscribers

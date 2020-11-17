@@ -1,7 +1,7 @@
 #
 # configure.ac
 #
-# Copyright (C) 2013-2019 Aleix Conchillo Flaque <aconchillo@gmail.com>
+# Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
 #
 # This file is part of guile-redis.
 #
@@ -19,7 +19,7 @@
 # along with guile-redis. If not, see https://www.gnu.org/licenses/.
 #
 
-AC_INIT([guile-redis], [1.3.0], [aconchillo@gmail.com])
+AC_INIT([guile-redis], [2.0.0], [aconchillo@gmail.com])
 AC_CONFIG_MACRO_DIRS([m4])
 AC_CONFIG_SRCDIR(redis.scm)
 AC_CONFIG_AUX_DIR([build-aux])

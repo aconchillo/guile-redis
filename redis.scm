@@ -1,6 +1,6 @@
 ;;; (redis) --- Redis module for Guile.
 
-;; Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -25,7 +25,8 @@
 
 (define-module (redis)
   #:use-module (redis main)
-  #:use-module (redis commands))
+  #:use-module (redis commands)
+  #:use-module (redis pubsub))
 
 (define-syntax re-export-modules
   (syntax-rules ()
@@ -36,6 +37,7 @@
        ...))))
 
 (re-export-modules (redis main)
-                   (redis commands))
+                   (redis commands)
+                   (redis pubsub))
 
 ;;; (redis) ends here

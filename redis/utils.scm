@@ -1,6 +1,6 @@
 ;;; (redis utils) --- redis module for Guile.
 
-;; Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -27,6 +27,7 @@
   #:use-module (redis connection)
   #:use-module (redis commands)
   #:use-module (ice-9 rdelim)
+  #:use-module (ice-9 textual-ports)
   #:use-module (rnrs bytevectors)
   #:use-module (srfi srfi-9)
   #:export (read-reply
@@ -82,16 +83,16 @@
   (let ((l (command->list cmd)))
     (call-with-output-string
      (lambda (port)
-       (simple-format port "*~a\r\n" (length l))
+       (format port "*~a\r\n" (length l))
        (for-each
         (lambda (e)
-          (simple-format port "$~a\r\n" (bytevector-length (string->utf8 e)))
-          (simple-format port "~a\r\n" e))
+          (format port "$~a\r\n" (bytevector-length (string->utf8 e)))
+          (format port "~a\r\n" e))
         l)))))
 
 (define (send-command conn cmd)
   (let ((sock (redis-socket conn)))
-    (display (command->string cmd) sock)
+    (put-string sock (command->string cmd))
     (force-output sock)))
 
 (define (send-commands conn commands)

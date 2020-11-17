@@ -1,6 +1,6 @@
 ;;; (redis main) --- redis module for Guile.
 
-;; Copyright (C) 2013-2018 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -43,10 +43,9 @@ defaults to 6379. Returns a redis connection."
   (close-port (redis-socket connection)))
 
 (define (redis-send connection commands)
-  "Send the given list of @var{commands} to the redis
-@var{connection}. @var{commands} can be a single command or a list of
-commands. For a list of commands, a list of all the replies is
-returned."
+  "Send the given @var{commands} to the redis @var{connection}. @var{commands}
+can be a single command or a list of commands. For a list of commands, a list
+of all the replies is returned."
   (send-commands connection commands)
   (receive-commands connection commands))
 

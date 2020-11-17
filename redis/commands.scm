@@ -1,6 +1,6 @@
 ;;; (redis commands) --- redis module for Guile.
 
-;; Copyright (C) 2013-2019 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -26,20 +26,21 @@
 (define-module (redis commands)
   #:use-module (redis utils)
   #:use-module (srfi srfi-9)
-  #:export (redis-command?
+  #:export (create-command
+            redis-command?
             redis-cmd-name
             redis-cmd-args
             redis-cmd-reply))
 
 (define-record-type <redis-command>
-  (create-command name args reply)
+  (make-command name args reply)
   redis-command?
   (name redis-cmd-name)
   (args redis-cmd-args)
   (reply redis-cmd-reply))
 
-(define* (make-command name #:rest args)
-  (create-command name args read-reply))
+(define* (create-command name #:rest args)
+  (make-command name args read-reply))
 
 (define-syntax create-commands
   (syntax-rules ()
@@ -53,7 +54,7 @@
                               (func-name (string->symbol (string-join `(,name ,@subnames) "-"))))
                          `(begin
                             (define* (,func-name #:optional args)
-                              (apply make-command ,(string-upcase cmd-name) (if args args #nil)))
+                              (apply create-command ,(string-upcase cmd-name) (if args args #nil)))
                             (module-export! (current-module) '(,func-name)))))
                      args))
             `((,(symbol->string (syntax->datum #'cmd)) ...) ...)))
@@ -62,15 +63,18 @@
 (create-commands
  ;; Cluster
  (cluster addslots)
+ (cluster bumpepoch)
  (cluster count-failure-reports)
  (cluster countkeysinslot)
  (cluster delslots)
  (cluster failover)
+ (cluster flushslots)
  (cluster forget)
  (cluster getkeysinslot)
  (cluster info)
  (cluster keyslot)
  (cluster meet)
+ (cluster myid)
  (cluster nodes)
  (cluster replicate)
  (cluster reset)
@@ -84,11 +88,22 @@
  (readwrite)
  ;; Connection
  (auth)
+ (client caching)
+ (client id)
+ (client kill)
+ (client list)
+ (client getname)
+ (client getredir)
+ (client pause)
+ (client reply)
+ (client setname)
+ (client tracking)
+ (client unblock)
  (echo)
+ (hello)
  (ping)
  (quit)
  (select)
- (swapdb)
  ;; Geo
  (geoadd)
  (geohash)
@@ -149,6 +164,7 @@
  (linsert)
  (llen)
  (lpop)
+ (lpos)
  (lpush)
  (lpushx)
  (lrange)
@@ -160,12 +176,8 @@
  (rpush)
  (rpushx)
  ;; Pub/Sub
- (psubscribe)
+ ;; publish, subscribe, unsubscribe, etc. are defined in pubsub.scm.
  (pubsub)
- (publish)
- (punsubscribe)
- (subscribe)
- (unsubscribe)
  ;; Scripting
  (eval)
  (evalsha)
@@ -175,16 +187,20 @@
  (script kill)
  (script load)
  ;; Server
+ (acl load)
+ (acl save)
+ (acl list)
+ (acl users)
+ (acl getuser)
+ (acl setuser)
+ (acl deluser)
+ (acl cat)
+ (acl genpass)
+ (acl whoami)
+ (acl log)
+ (acl help)
  (bgrewriteaof)
  (bgsave)
- (client id)
- (client kill)
- (client list)
- (client getname)
- (client pause)
- (client reply)
- (client setname)
- (client unblock)
  (command)
  (command count)
  (command getkeys)
@@ -199,6 +215,7 @@
  (flushall)
  (flushdb)
  (info)
+ (lolwut)
  (lastsave)
  (memory doctor)
  (memory help)
@@ -206,6 +223,9 @@
  (memory purge)
  (memory stats)
  (memory usage)
+ (module list)
+ (module load)
+ (module unload)
  (monitor)
  (role)
  (save)
@@ -213,8 +233,16 @@
  (slaveof)
  (replicaof)
  (slowlog)
+ (swapdb)
  (sync)
+ (psync)
  (time)
+ (latency doctor)
+ (latency graph)
+ (latency history)
+ (latency latest)
+ (latency reset)
+ (latency help)
  ;; Sets
  (sadd)
  (scard)
@@ -295,6 +323,7 @@
  (setex)
  (setnx)
  (setrange)
+ (stralgo)
  (strlen)
  ;; Transactions
  (discard)

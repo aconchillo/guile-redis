@@ -1,7 +1,7 @@
 #
 # Makefile.am
 #
-# Copyright (C) 2013-2019 Aleix Conchillo Flaque <aconchillo@gmail.com>
+# Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
 #
 # This file is part of guile-redis.
 #
@@ -22,7 +22,7 @@
 moddir=$(datadir)/guile/site/$(GUILE_EFFECTIVE_VERSION)/redis
 objdir=$(libdir)/guile/$(GUILE_EFFECTIVE_VERSION)/site-ccache/redis
 
-SOURCES = commands.scm connection.scm main.scm utils.scm
+SOURCES = commands.scm connection.scm main.scm pubsub.scm utils.scm
 
 GOBJECTS = $(SOURCES:%.scm=%.go)
 

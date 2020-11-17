@@ -159,7 +159,7 @@ there's a procedure for each of them:
 - Send a couple of *PING* commands:
 
 ```
-> (redis-send conn ((ping) (ping '("hello from guile-redis"))))
+> (redis-send conn (list (ping) (ping '("hello from guile-redis"))))
 ("PONG" "hello from guile-redis")
 ```
 
@@ -189,6 +189,14 @@ there's a procedure for each of them:
 ```
 > (redis-publish conn "news" "hello from guile-redis")
 1
+```
+
+- Read next message from subscribed channel:
+
+```
+> (redis-subscribe-read conn)
+"news"
+"hello from guile-redis"
 ```
 
 - Unsubscribe from all channels:

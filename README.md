@@ -1,7 +1,7 @@
 
 # guile-redis
 
-guile-redis is a Guile module for the [Redis](http://redis.io) key-value data
+guile-redis is a Guile module for the [Redis](https://redis.io) key-value data
 store. It provides all commands up to Redis 6.0 and supports multiple
 commands, pipelining and Pub/Sub.
 
@@ -9,7 +9,7 @@ commands, pipelining and Pub/Sub.
 
 Download the latest tarball and untar it:
 
-- [guile-redis-2.0.0.tar.gz](http://download.savannah.gnu.org/releases/guile-redis/guile-redis-2.0.0.tar.gz)
+- [guile-redis-2.0.0.tar.gz](https://download.savannah.gnu.org/releases/guile-redis/guile-redis-2.0.0.tar.gz)
 
 If you are cloning the repository make sure you run this first:
 

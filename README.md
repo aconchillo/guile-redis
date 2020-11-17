@@ -139,50 +139,70 @@ instead there's a procedure for each of them:
 
 - Load the module:
 
+```
     > (use-modules (redis))
+```
 
 - Create a connection:
 
+```
     > (define conn (redis-connect))
+```
 
 - Send a single *PING* command:
 
+```
     > (redis-send conn (ping))
     "PONG"
+```
 
 - Send a couple of *PING* commands:
 
+```
     > (redis-send conn ((ping) (ping '("hello from guile-redis"))))
     ("PONG" "hello from guile-redis")
+```
 
 - Set a couple of keys:
 
+```
     > (redis-send conn (mset '(hello "world" foo "bar")))
     "OK"
+```
 
 - Retrieve the keys just set above:
 
+```
     > (redis-send conn (mget '(hello foo)))
     ("world" "bar")
+```
 
 - Subscribe to the *news* channel:
 
+```
     > (redis-subscribe conn '("news"))
     (("news" . 1))
+```
 
 - Publish message to the *news* channel:
 
+```
     > (redis-publish conn "news" "hello from guile-redis")
     1
+```
 
 - Unsubscribe from all channels:
 
+```
     > (redis-unsubscribe conn)
     (("news" . 0))
+```
 
 - Finally, close the connection:
 
+```
     > (redis-close conn)
+```
 
 # License
 

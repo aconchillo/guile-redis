@@ -176,12 +176,8 @@
  (rpush)
  (rpushx)
  ;; Pub/Sub
- (psubscribe)
+ ;; publish, subscribe, unsubscribe, etc. are defined in pubsub.scm.
  (pubsub)
- (publish)
- (punsubscribe)
- (subscribe)
- (unsubscribe)
  ;; Scripting
  (eval)
  (evalsha)

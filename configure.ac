@@ -2,6 +2,7 @@
 # configure.ac
 #
 # Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
+# Copyright (C) 2021 Bonface Munyoki Kilyungi <me@bonfacemunyoki.com>
 #
 # This file is part of guile-redis.
 #
@@ -32,7 +33,7 @@ m4_pattern_forbid([PKG_CHECK_MODULES])
 m4_pattern_forbid([^GUILE_PKG])
 
 dnl Check for Guile 2.x.
-GUILE_PKG([3.0 2.2 2.0])
+GUILE_PKG([3.0 2.2])
 GUILE_PROGS
 GUILE_SITE_DIR
 

@@ -214,7 +214,7 @@ there's a procedure for each of them:
 
 # License
 
-Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
+Copyright (C) 2013-2021 Aleix Conchillo Flaque <aconchillo@gmail.com>
 
 This file is part of guile-redis.
 

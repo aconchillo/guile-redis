@@ -20,7 +20,7 @@
 # along with guile-redis. If not, see https://www.gnu.org/licenses/.
 #
 
-AC_INIT([guile-redis], [2.0.0], [aconchillo@gmail.com])
+AC_INIT([guile-redis], [2.1.0], [aconchillo@gmail.com])
 AC_CONFIG_MACRO_DIRS([m4])
 AC_CONFIG_SRCDIR(redis.scm)
 AC_CONFIG_AUX_DIR([build-aux])
@@ -32,7 +32,7 @@ dnl Make sure they are available.
 m4_pattern_forbid([PKG_CHECK_MODULES])
 m4_pattern_forbid([^GUILE_PKG])
 
-dnl Check for Guile 2.x.
+dnl Check for Guile >= 2.2.
 GUILE_PKG([3.0 2.2])
 GUILE_PROGS
 GUILE_SITE_DIR

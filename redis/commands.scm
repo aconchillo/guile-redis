@@ -1,6 +1,6 @@
 ;;; (redis commands) --- redis module for Guile.
 
-;; Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2021 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -90,19 +90,23 @@
  (auth)
  (client caching)
  (client id)
+ (client info)
  (client kill)
  (client list)
  (client getname)
  (client getredir)
+ (client unpause)
  (client pause)
  (client reply)
  (client setname)
  (client tracking)
+ (client trackinginfo)
  (client unblock)
  (echo)
  (hello)
  (ping)
  (quit)
+ (reset)
  (select)
  ;; Geo
  (geoadd)
@@ -111,6 +115,8 @@
  (geodist)
  (georadius)
  (georadiusbymember)
+ (geosearch)
+ (geosearchstore)
  ;; Hashes
  (hdel)
  (hexists)
@@ -124,6 +130,7 @@
  (hmset)
  (hset)
  (hsetnx)
+ (hrandfield)
  (hstrlen)
  (hvals)
  (hscan)
@@ -132,6 +139,7 @@
  (pfcount)
  (pfmerge)
  ;; Keys
+ (copy)
  (del)
  (dump)
  (exists)
@@ -160,6 +168,7 @@
  (blpop)
  (brpop)
  (brpoplpush)
+ (blmove)
  (lindex)
  (linsert)
  (llen)
@@ -173,6 +182,7 @@
  (ltrim)
  (rpop)
  (rpoplpush)
+ (lmove)
  (rpush)
  (rpushx)
  ;; Pub/Sub
@@ -212,6 +222,7 @@
  (dbsize)
  (debug object)
  (debug segfault)
+ (failover)
  (flushall)
  (flushdb)
  (info)
@@ -251,6 +262,7 @@
  (sinter)
  (sinterstore)
  (sismember)
+ (smismember)
  (smembers)
  (smove)
  (spop)
@@ -265,11 +277,16 @@
  (zadd)
  (zcard)
  (zcount)
+ (zdiff)
+ (zdiffstore)
  (zincrby)
+ (zinter)
  (zinterstore)
  (zlexcount)
  (zpopmax)
  (zpopmin)
+ (zrandmember)
+ (zrangestore)
  (zrange)
  (zrangebylex)
  (zrevrangebylex)
@@ -283,6 +300,8 @@
  (zrevrangebyscore)
  (zrevrank)
  (zscore)
+ (zunion)
+ (zmscore)
  (zunionstore)
  (zscan)
  ;; Streams
@@ -298,6 +317,7 @@
  (xreadgroup)
  (xack)
  (xclaim)
+ (xautoclaim)
  (xpending)
  ;; Strings
  (append)
@@ -309,6 +329,8 @@
  (decrby)
  (get)
  (getbit)
+ (getdel)
+ (getex)
  (getrange)
  (getset)
  (incr)

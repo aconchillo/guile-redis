@@ -54,7 +54,9 @@
                               (func-name (string->symbol (string-join `(,name ,@subnames) "-"))))
                          `(begin
                             (define* (,func-name #:optional args)
-                              (apply create-command ,(string-upcase cmd-name) (if args args #nil)))
+                              ;; We were using #nil instead of '(), may be related to:
+                              ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=48315
+                              (apply create-command ,(string-upcase cmd-name) (if args args '())))
                             (module-export! (current-module) '(,func-name)))))
                      args))
             `((,(symbol->string (syntax->datum #'cmd)) ...) ...)))

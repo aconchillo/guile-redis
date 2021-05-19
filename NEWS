@@ -1,4 +1,9 @@
 
+* Version 2.1.1 (May 19, 2021)
+
+  - Fix build with Guile 3.0.7.
+
+
 * Version 2.1.0 (Feb 24, 2021)
 
   - Add Redis 6.2.0 commands.

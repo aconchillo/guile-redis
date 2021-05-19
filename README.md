@@ -9,7 +9,7 @@ commands, pipelining and Pub/Sub.
 
 Download the latest tarball and untar it:
 
-- [guile-redis-2.1.0.tar.gz](https://download.savannah.gnu.org/releases/guile-redis/guile-redis-2.1.0.tar.gz)
+- [guile-redis-2.1.1.tar.gz](https://download.savannah.gnu.org/releases/guile-redis/guile-redis-2.1.1.tar.gz)
 
 If you are cloning the repository make sure you run this first:
 
@@ -184,7 +184,7 @@ there's a procedure for each of them:
 (("news" . 1))
 ```
 
-- Publish message to the *news* channel:
+- Publish message to the *news* channel (from another REPL):
 
 ```
 > (redis-publish conn "news" "hello from guile-redis")

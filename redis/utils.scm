@@ -1,6 +1,6 @@
 ;;; (redis utils) --- redis module for Guile.
 
-;; Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2021 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -58,7 +58,7 @@
       ;; Bulk
       ((#\$)
        (let ((len (string->number (redis-read-delimited conn))))
-         (if (> len 0) (redis-read-delimited conn) #nil)))
+         (if (> len 0) (redis-read-delimited conn) '())))
       ;; Multi-bulk
       ((#\*)
        (let ((len (string->number (redis-read-delimited conn))))

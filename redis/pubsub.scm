@@ -94,13 +94,13 @@ actual message."
   (apply create-command "SUBSCRIBE" channels))
 
 (define* (unsubscribe #:optional channels)
-  (apply create-command "UNSUBSCRIBE" (if channels channels #nil)))
+  (apply create-command "UNSUBSCRIBE" (or channels '())))
 
 (define (psubscribe patterns)
   (apply create-command "PSUBSCRIBE" patterns))
 
 (define* (punsubscribe #:optional patterns)
-  (apply create-command "PUNSUBSCRIBE" (if patterns patterns #nil)))
+  (apply create-command "PUNSUBSCRIBE" (or patterns '())))
 
 (define* (redis--subscribe connection command)
   (send-commands connection command)

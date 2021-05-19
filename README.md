@@ -9,7 +9,7 @@ commands, pipelining and Pub/Sub.
 
 Download the latest tarball and untar it:
 
-- [guile-redis-2.1.1.tar.gz](https://download.savannah.gnu.org/releases/guile-redis/guile-redis-2.1.1.tar.gz)
+- [guile-redis-2.1.2.tar.gz](https://download.savannah.gnu.org/releases/guile-redis/guile-redis-2.1.2.tar.gz)
 
 If you are cloning the repository make sure you run this first:
 

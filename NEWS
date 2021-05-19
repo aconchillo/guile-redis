@@ -1,4 +1,11 @@
 
+* Version 2.1.2 (May 19, 2021)
+
+  - Fix empty strings.
+
+  - Remove all uses of #nil.
+
+
 * Version 2.1.1 (May 19, 2021)
 
   - Fix build with Guile 3.0.7.

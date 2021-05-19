@@ -58,7 +58,7 @@
       ;; Bulk
       ((#\$)
        (let ((len (string->number (redis-read-delimited conn))))
-         (if (> len 0) (redis-read-delimited conn) '())))
+         (if (>= len 0) (redis-read-delimited conn) '())))
       ;; Multi-bulk
       ((#\*)
        (let ((len (string->number (redis-read-delimited conn))))

@@ -215,6 +215,7 @@
  (pubsub channels)
  (pubsub numpat)
  (pubsub numsub)
+ (pubsub shardchannels)
  ;; Scripting
  (eval)
  (evalsha)

@@ -1,6 +1,6 @@
 ;;; (redis pubsub) --- redis module for Guile.
 
-;; Copyright (C) 2013-2020 Aleix Conchillo Flaque <aconchillo@gmail.com>
+;; Copyright (C) 2013-2022 Aleix Conchillo Flaque <aconchillo@gmail.com>
 ;;
 ;; This file is part of guile-redis.
 ;;
@@ -30,9 +30,12 @@
   #:use-module (srfi srfi-1)
   #:export (redis-publish
             redis-subscribe
-            redis-psubscribe
             redis-unsubscribe
+            redis-psubscribe
             redis-punsubscribe
+            redis-spublish
+            redis-ssubscribe
+            redis-sunsubscribe
             redis-subscribe-read))
 
 (define (redis-publish connection channel message)
@@ -73,6 +76,28 @@ number of remaining subscribed channel patterns (when that patterns was
 unsubscribed)."
   (redis--unsubscribe connection (punsubscribe (or patterns '())) "punsubscribe"))
 
+(define (redis-spublish connection channel message)
+  "Publish the given @var{message} to the shard @var{channel} using the provided
+Redis client @var{connection}. All subscribers to that channel will receive the
+message. Returns the number of clients that received the message."
+  (send-commands connection (spublish channel message))
+  (read-reply connection))
+
+(define* (redis-ssubscribe connection channels)
+  "Subscribe to the given list of shard @var{channels} using the Redis client
+@var{connection}. Returns a list of pairs where the first value is the
+subscribed channel and the second value is the total number of subscribed
+channels (when that channel was subscribed)."
+    (redis--subscribe connection (ssubscribe channels)))
+
+(define* (redis-sunsubscribe connection #:optional channels)
+  "Unsubscribe from the given optional list of shard @var{channels} using the
+Redis client @var{connection}. If @var{channels} is not specified it will
+unsubscribe from all the subscribed channels. Returns a list of pairs where the
+first value is the unsubscribed channel and the second value is the total number
+of remaining subscribed channels (when that channel was unsubscribed)."
+  (redis--unsubscribe connection (sunsubscribe (or channels '())) "sunsubscribe"))
+
 (define (redis-subscribe-read connection)
   "Read the next message from one of the subscribed channels on the given
 @var{connection}. This is a blocking operation until a message is received. It
@@ -101,6 +126,15 @@ actual message."
 
 (define* (punsubscribe #:optional patterns)
   (apply create-command "PUNSUBSCRIBE" (or patterns '())))
+
+(define (spublish channel message)
+  (apply create-command "SPUBLISH" (list channel message)))
+
+(define (ssubscribe patterns)
+  (apply create-command "SSUBSCRIBE" patterns))
+
+(define* (sunsubscribe #:optional patterns)
+  (apply create-command "SUNSUBSCRIBE" (or patterns '())))
 
 (define* (redis--subscribe connection command)
   (send-commands connection command)

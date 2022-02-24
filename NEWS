@@ -1,4 +1,9 @@
 
+* Version 2.2.0 (Feb 23, 2022)
+
+  - Add Redis 7.0 commands.
+
+
 * Version 2.1.2 (May 19, 2021)
 
   - Fix empty strings.

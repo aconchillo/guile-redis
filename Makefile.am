@@ -1,7 +1,7 @@
 #
 # Makefile.am
 #
-# Copyright (C) 2013-2019 Aleix Conchillo Flaque <aconchillo@gmail.com>
+# Copyright (C) 2013-2023 Aleix Conchillo Flaque <aconchillo@gmail.com>
 #
 # This file is part of guile-redis.
 #
@@ -22,9 +22,6 @@
 SUBDIRS = redis
 
 ACLOCAL_AMFLAGS = -I build-aux
-
-dist-hook:
-	$(SHELL) $(top_srcdir)/ChangeLog > $(top_distdir)/ChangeLog
 
 GOBJECTS = $(SOURCES:%.scm=%.go)
 

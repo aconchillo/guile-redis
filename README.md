@@ -1,6 +1,9 @@
 
 # guile-redis
 
+[![GNU Guile 2.0](https://github.com/aconchillo/guile-redis/actions/workflows/guile2.2.yml/badge.svg)](https://github.com/aconchillo/guile-redis/actions/workflows/guile2.2.yml)
+[![GNU Guile 3.0](https://github.com/aconchillo/guile-redis/actions/workflows/guile3.0.yml/badge.svg)](https://github.com/aconchillo/guile-redis/actions/workflows/guile3.0.yml)
+
 guile-redis is a Guile module for the [Redis](https://redis.io) key-value data
 store. It provides all commands up to Redis 7.0 and supports multiple commands,
 pipelining and Pub/Sub.
